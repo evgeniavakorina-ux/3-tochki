@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Три точки твоей карты</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1a1410;--cream:#f5f0e8;--warm:#e8ddd0;
+  --gold:#b8924a;--gold-l:#d4ac6a;--rust:#8b4a2a;
+  --muted:#7a6e64;--card:#faf7f2;
+}
+body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;min-height:100vh;padding:24px 16px;position:relative;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 15% 20%,rgba(184,146,74,.08) 0%,transparent 60%),radial-gradient(ellipse 50% 60% at 85% 80%,rgba(139,74,42,.06) 0%,transparent 60%);pointer-events:none;z-index:0}
+.wrap{width:100%;max-width:580px;margin:0 auto;position:relative;z-index:1}
+.screen{display:none;animation:fadeIn .5s ease both}
+.screen.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.label{font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:20px}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,7vw,46px);font-weight:300;line-height:1.15;text-align:center;margin-bottom:10px}
+h1 em{font-style:italic;color:var(--rust)}
+.sub{font-size:14px;font-weight:300;color:var(--muted);text-align:center;line-height:1.65;margin-bottom:28px;max-width:420px;margin-left:auto;margin-right:auto}
+.deco{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+.deco::before,.deco::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.deco span{font-size:16px;color:var(--gold);letter-spacing:6px}
+.card{background:var(--card);border:1px solid rgba(184,146,74,.2);border-radius:4px;padding:28px 24px;margin-bottom:18px;position:relative}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+.step-num{font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.step-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:6px}
+.step-desc{font-size:13px;font-weight:300;color:var(--muted);line-height:1.6;margin-bottom:20px}
+.how-to{background:rgba(184,146,74,.06);border:1px solid rgba(184,146,74,.15);border-radius:3px;padding:14px 16px;margin-bottom:20px}
+.how-to p{font-size:12px;color:var(--muted);line-height:1.6}
+.how-to strong{color:var(--ink);font-weight:500}
+.how-to a{color:var(--gold);text-decoration:none}
+.how-to a:hover{text-decoration:underline}
+select{width:100%;padding:13px 16px;border:1px solid rgba(184,146,74,.3);border-radius:3px;background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:14px;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23b8924a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;cursor:pointer}
+select:focus{outline:none;border-color:var(--gold)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px 24px;background:var(--ink);color:var(--cream);border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s}
+.btn:hover{background:#2d2520;transform:translateY(-1px)}
+.btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid rgba(122,110,100,.3);margin-top:10px}
+.btn-ghost:hover{background:rgba(122,110,100,.06);color:var(--ink)}
+
+/* RESULT */
+.result-hero{text-align:center;margin-bottom:28px}
+.result-hero .planet-icon{font-size:42px;margin-bottom:8px}
+.r-title{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,5vw,32px);font-weight:300;line-height:1.2;text-align:center;color:var(--ink);margin-bottom:22px}
+.r-title em{font-style:italic;color:var(--rust)}
+.section{margin-bottom:24px}
+.section-label{font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.section-text{font-size:14px;font-weight:300;line-height:1.75;color:#3a3028}
+.divider{width:40px;height:1px;background:var(--gold);margin:24px auto}
+.synthesis{background:linear-gradient(135deg,rgba(139,74,42,.05),rgba(184,146,74,.07));border:1px solid rgba(184,146,74,.2);border-radius:3px;padding:22px 20px;margin-bottom:24px;position:relative}
+.synthesis::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--rust),var(--gold),var(--gold-l))}
+.synth-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;margin-bottom:12px;color:var(--ink)}
+.synth-title em{font-style:italic;color:var(--rust)}
+.synth-text{font-size:14px;font-weight:300;line-height:1.75;color:#3a3028}
+
+/* CTA */
+.cta-block{border:1px solid rgba(184,146,74,.2);border-radius:4px;padding:28px 24px;background:var(--card);position:relative}
+.cta-block::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--rust),var(--gold),var(--gold-l))}
+.cta-who{font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.cta-product{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;line-height:1.25;color:var(--ink);margin-bottom:14px}
+.cta-product em{font-style:italic;color:var(--rust)}
+.cta-list{list-style:none;margin-bottom:14px}
+.cta-list li{font-size:13px;font-weight:300;line-height:1.6;color:#3d3530;padding-left:16px;position:relative;margin-bottom:4px}
+.cta-list li::before{content:'—';position:absolute;left:0;color:var(--gold)}
+.cta-note{font-size:12px;font-weight:300;color:var(--muted);line-height:1.5;margin-bottom:16px;font-style:italic}
+.cta-price{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--gold);margin-bottom:10px}
+.cta-arrow{font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.cta-buttons{display:flex;gap:10px}
+.cta-btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 16px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;text-decoration:none;transition:all .2s;letter-spacing:.3px}
+.cta-btn-tg{background:#2AABEE;color:white}
+.cta-btn-tg:hover{background:#1e99d6;transform:translateY(-1px)}
+.cta-btn-vk{background:#0077FF;color:white}
+.cta-btn-vk:hover{background:#0066dd;transform:translateY(-1px)}
+.restart-link{text-align:center;margin-top:14px}
+.restart-link button{background:none;border:none;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:4px}
+.restart-link button:hover{color:var(--ink)}
+
+/* progress dots */
+.dots{display:flex;justify-content:center;gap:8px;margin-bottom:24px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--warm);transition:background .3s}
+.dot.active{background:var(--gold)}
+.dot.done{background:rgba(184,146,74,.4)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- START -->
+<div class="screen active" id="s-start">
+  <div class="label">Лид-магнит · Астрология</div>
+  <div style="text-align:center;font-size:32px;letter-spacing:8px;color:var(--gold);opacity:.7;margin-bottom:20px">☉ ☽ ↑</div>
+  <h1>Три точки,<br>которые говорят<br><em>кто ты</em></h1>
+  <p class="sub">Солнце, Луна и Асцендент — базовый код твоей личности. Узнай что они говорят о тебе за 2 минуты.</p>
+  <div class="deco"><span>✦</span></div>
+  <div class="card" style="margin-bottom:20px">
+    <p style="font-size:13px;font-weight:500;color:var(--ink);line-height:1.5;margin-bottom:14px">Чтобы получить разбор, найди в своей карте 3 точки и запиши их:</p>
+
+    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:18px">
+      <div style="display:flex;align-items:flex-start;gap:12px;background:rgba(184,146,74,.05);border-radius:3px;padding:11px 13px">
+        <span style="font-size:18px;line-height:1.2;flex-shrink:0">☉</span>
+        <div>
+          <p style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:2px">Солнце — знак</p>
+          <p style="font-size:12px;font-weight:300;color:var(--muted);line-height:1.5">Это твой знак зодиака по дате рождения — тот самый, который все знают</p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;background:rgba(184,146,74,.05);border-radius:3px;padding:11px 13px">
+        <span style="font-size:18px;line-height:1.2;flex-shrink:0">☽</span>
+        <div>
+          <p style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:2px">Луна — знак</p>
+          <p style="font-size:12px;font-weight:300;color:var(--muted);line-height:1.5">Введи в поиске: <em>«в каком знаке была луна + твой день рождения»</em> — например: <em>в каком знаке была луна 11 сентября 1993</em> — поисковик выдаст знак</p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;background:rgba(184,146,74,.05);border-radius:3px;padding:11px 13px">
+        <span style="font-size:18px;line-height:1.2;flex-shrink:0">AC</span>
+        <div>
+          <p style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:2px">Асцендент — знак</p>
+          <p style="font-size:12px;font-weight:300;color:var(--muted);line-height:1.5">Нужна натальная карта. Как найти — читай ниже ↓</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:rgba(139,74,42,.05);border:1px solid rgba(184,146,74,.2);border-radius:3px;padding:14px 15px">
+      <p style="font-size:12px;font-weight:500;color:var(--ink);margin-bottom:8px">Как узнать знак Асцендента бесплатно:</p>
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <div style="display:flex;gap:8px;align-items:flex-start">
+          <span style="font-size:11px;font-weight:600;color:var(--gold);flex-shrink:0;margin-top:1px">1</span>
+          <p style="font-size:12px;font-weight:300;color:var(--muted);line-height:1.5">Перейди на <a href="https://sotis-online.ru/?chr=dt:20260722105942;sx:m;cid:1600310;name:New%20chart" target="_blank" style="color:var(--gold);text-decoration:none;font-weight:500">sotis.online</a> — бесплатный астропроцессор</p>
+        </div>
+        <div style="display:flex;gap:8px;align-items:flex-start">
+          <span style="font-size:11px;font-weight:600;color:var(--gold);flex-shrink:0;margin-top:1px">2</span>
+          <p style="font-size:12px;font-weight:300;color:var(--muted);line-height:1.5">Выбери «Создать одинарную карту»</p>
+        </div>
+        <div style="display:flex;gap:8px;align-items:flex-start">
+          <span style="font-size:11px;font-weight:600;color:var(--gold);flex-shrink:0;margin-top:1px">3</span>
+          <p style="font-size:12px;font-weight:300;color:var(--muted);line-height:1.5">Введи дату, <strong style="color:var(--ink)">точное время</strong> и место рождения</p>
+        </div>
+        <div style="display:flex;gap:8px;align-items:flex-start">
+          <span style="font-size:11px;font-weight:600;color:var(--gold);flex-shrink:0;margin-top:1px">4</span>
+          <p style="font-size:12px;font-weight:300;color:var(--muted);line-height:1.5">Рядом с колесом карты появится таблица — найди в ней строку <strong style="color:var(--ink)">As</strong> — это и есть твой Асцендент. Рядом будет знак зодиака</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:14px;border-top:1px solid rgba(184,146,74,.15);padding-top:12px">
+      <p style="font-size:11px;font-weight:500;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Знаки зодиака в таблице</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px 12px">
+        <span style="font-size:11px;color:var(--muted)">♈ Овен</span>
+        <span style="font-size:11px;color:var(--muted)">♎ Весы</span>
+        <span style="font-size:11px;color:var(--muted)">♉ Телец</span>
+        <span style="font-size:11px;color:var(--muted)">♏ Скорпион</span>
+        <span style="font-size:11px;color:var(--muted)">♊ Близнецы</span>
+        <span style="font-size:11px;color:var(--muted)">♐ Стрелец</span>
+        <span style="font-size:11px;color:var(--muted)">♋ Рак</span>
+        <span style="font-size:11px;color:var(--muted)">♑ Козерог</span>
+        <span style="font-size:11px;color:var(--muted)">♌ Лев</span>
+        <span style="font-size:11px;color:var(--muted)">♒ Водолей</span>
+        <span style="font-size:11px;color:var(--muted)">♍ Дева</span>
+        <span style="font-size:11px;color:var(--muted)">♓ Рыбы</span>
+      </div>
+    </div>
+  </div>
+  <button class="btn" onclick="show('s-sun')">Начать →</button>
+</div>
+
+<!-- SUN -->
+<div class="screen" id="s-sun">
+  <div class="dots">
+    <div class="dot active" id="d1"></div>
+    <div class="dot" id="d2"></div>
+    <div class="dot" id="d3"></div>
+  </div>
+  <div class="card">
+    <div class="step-num">Шаг 01 из 03</div>
+    <div class="step-title">☉ Знак Солнца</div>
+    <div class="step-desc">Это твоё ядро — чем ты собираешь себя, что тебе важно, через что ощущаешь себя живой.</div>
+    <div class="how-to">
+      <p><strong>Как найти:</strong> это твой знак зодиака по дате рождения — тот самый, который все знают. Овен, Телец, Близнецы и так далее.</p>
+    </div>
+    <select id="sel-sun">
+      <option value="">— выбери знак Солнца —</option>
+      <option value="aries">♈ Овен</option>
+      <option value="taurus">♉ Телец</option>
+      <option value="gemini">♊ Близнецы</option>
+      <option value="cancer">♋ Рак</option>
+      <option value="leo">♌ Лев</option>
+      <option value="virgo">♍ Дева</option>
+      <option value="libra">♎ Весы</option>
+      <option value="scorpio">♏ Скорпион</option>
+      <option value="sagittarius">♐ Стрелец</option>
+      <option value="capricorn">♑ Козерог</option>
+      <option value="aquarius">♒ Водолей</option>
+      <option value="pisces">♓ Рыбы</option>
+    </select>
+  </div>
+  <button class="btn" id="btn-sun" onclick="goMoon()" disabled>Далее →</button>
+  <button class="btn btn-ghost" onclick="show('s-start')">← Назад</button>
+</div>
+
+<!-- MOON -->
+<div class="screen" id="s-moon">
+  <div class="dots">
+    <div class="dot done" id="d1b"></div>
+    <div class="dot active" id="d2b"></div>
+    <div class="dot" id="d3b"></div>
+  </div>
+  <div class="card">
+    <div class="step-num">Шаг 02 из 03</div>
+    <div class="step-title">☽ Знак Луны</div>
+    <div class="step-desc">Твой внутренний мир — как ты чувствуешь, что тебя успокаивает или выбивает из колеи, как ты реагируешь когда «никто не смотрит».</div>
+    <div class="how-to">
+      <p><strong>Как найти:</strong> введи в поиске запрос: <em>«в каком знаке зодиака была луна + твой день рождения»</em><br>Например: <em>в каком знаке была луна 11 сентября 1993</em><br>Поисковик сразу выдаст ответ.</p>
+    </div>
+    <select id="sel-moon">
+      <option value="">— выбери знак Луны —</option>
+      <option value="aries">♈ Овен</option>
+      <option value="taurus">♉ Телец</option>
+      <option value="gemini">♊ Близнецы</option>
+      <option value="cancer">♋ Рак</option>
+      <option value="leo">♌ Лев</option>
+      <option value="virgo">♍ Дева</option>
+      <option value="libra">♎ Весы</option>
+      <option value="scorpio">♏ Скорпион</option>
+      <option value="sagittarius">♐ Стрелец</option>
+      <option value="capricorn">♑ Козерог</option>
+      <option value="aquarius">♒ Водолей</option>
+      <option value="pisces">♓ Рыбы</option>
+    </select>
+  </div>
+  <button class="btn" id="btn-moon" onclick="goAsc()" disabled>Далее →</button>
+  <button class="btn btn-ghost" onclick="show('s-sun')">← Назад</button>
+</div>
+
+<!-- ASC -->
+<div class="screen" id="s-asc">
+  <div class="dots">
+    <div class="dot done"></div>
+    <div class="dot done"></div>
+    <div class="dot active"></div>
+  </div>
+  <div class="card">
+    <div class="step-num">Шаг 03 из 03</div>
+    <div class="step-title">↑ Знак Асцендента</div>
+    <div class="step-desc">Твоя «социальная маска» — как тебя считывают люди при первом знакомстве, твой природный стиль поведения на старте любого дела.</div>
+    <div class="how-to">
+      <p><strong>Как найти:</strong> перейди на <a href="https://sotis-online.ru/?chr=dt:20260722105942;sx:m;cid:1600310;name:New%20chart" target="_blank" style="color:var(--gold);text-decoration:none;font-weight:500">sotis.online</a> → «Создать одинарную карту» → введи дату, <strong>точное время</strong> и место рождения → в таблице рядом с картой найди строку <strong>As</strong> — рядом будет знак зодиака. Если времени нет — выбери «Не знаю».</p>
+    </div>
+    <select id="sel-asc">
+      <option value="">— выбери знак Асцендента —</option>
+      <option value="aries">♈ Овен</option>
+      <option value="taurus">♉ Телец</option>
+      <option value="gemini">♊ Близнецы</option>
+      <option value="cancer">♋ Рак</option>
+      <option value="leo">♌ Лев</option>
+      <option value="virgo">♍ Дева</option>
+      <option value="libra">♎ Весы</option>
+      <option value="scorpio">♏ Скорпион</option>
+      <option value="sagittarius">♐ Стрелец</option>
+      <option value="capricorn">♑ Козерог</option>
+      <option value="aquarius">♒ Водолей</option>
+      <option value="pisces">♓ Рыбы</option>
+      <option value="unknown">Не знаю время рождения</option>
+    </select>
+  </div>
+  <button class="btn" id="btn-asc" onclick="showResult()" disabled>Показать результат →</button>
+  <button class="btn btn-ghost" onclick="show('s-moon')">← Назад</button>
+</div>
+
+<!-- RESULT -->
+<div class="screen" id="s-result">
+  <div id="result-content"></div>
+  <div class="restart-link"><button onclick="restart()">Пройти заново</button></div>
+</div>
+
+</div>
+
+<script>
+// Enable next button when select changes
+document.getElementById('sel-sun').addEventListener('change', function(){
+  document.getElementById('btn-sun').disabled = !this.value;
+});
+document.getElementById('sel-moon').addEventListener('change', function(){
+  document.getElementById('btn-moon').disabled = !this.value;
+});
+document.getElementById('sel-asc').addEventListener('change', function(){
+  document.getElementById('btn-asc').disabled = !this.value;
+});
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const el=document.getElementById(id);
+  el.classList.add('active');
+  el.style.animation='none';el.offsetHeight;el.style.animation='';
+  window.scrollTo(0,0);
+}
+function goMoon(){show('s-moon')}
+function goAsc(){show('s-asc')}
+
+// ===== DATA =====
+const sunData = {
+  aries:   {title:'Овен', text:'Ты собираешь себя через действие, инициативу и преодоление. Тебе важно быть первой, двигаться вперёд, создавать новое. В тебе живёт энергия первопроходца — ты заряжаешь пространство, задаёшь импульс. Твоя сила включается, когда есть вызов и свобода действовать. Теряешь себя, когда вынуждена ждать или подстраиваться под чужой темп.'},
+  taurus:  {title:'Телец', text:'Ты собираешь себя через накопление, удовольствие и стабильность. Тебе важно видеть конкретный результат, ощущать почву под ногами. Ты умеешь создавать красоту и ценность — из материи, из навыка, из дела. Твоя сила — в терпении и продуктивности. Теряешь себя, когда тебя торопят или выталкивают из привычного ритма.'},
+  gemini:  {title:'Близнецы', text:'Ты собираешь себя через общение, информацию и разнообразие. Тебе важно узнавать новое, делиться идеями, быть в движении и контакте. В тебе живёт любопытство — ты умеешь соединять людей и смыслы. Твоя сила — в гибкости и быстроте мышления. Теряешь себя, когда попадаешь в рутину без обновления.'},
+  cancer:  {title:'Рак', text:'Ты собираешь себя через заботу, близость и ощущение дома. Тебе важно чувствовать себя нужной и защищённой, создавать уют и эмоциональную безопасность для себя и других. В тебе огромная чувствительность — ты считываешь то, что другие не замечают. Теряешь себя, когда нет близкого человека рядом или когда приходится прятать чувства.'},
+  leo:     {title:'Лев', text:'Ты собираешь себя через творчество, признание и яркое проявление. Тебе важно создавать, быть замеченной, оставлять след. В тебе живёт природная щедрость и умение дарить тепло. Твоя сила включается, когда ты в центре и можешь выражать себя свободно. Теряешь себя, когда тебя игнорируют или заставляют быть «как все».'},
+  virgo:   {title:'Дева', text:'Ты собираешь себя через пользу, точность и мастерство. Тебе важно понимать: зачем я это делаю, какой результат, где моя реальная ценность. Ты умеешь видеть детали, которые другие пропускают, и превращать хаос в систему. Теряешь себя, когда начинаешь доказывать свою ценность через идеальность или когда критикуешь себя жёстче, чем любую внешнюю ситуацию.'},
+  libra:   {title:'Весы', text:'Ты собираешь себя через гармонию, отношения и поиск баланса. Тебе важно быть в связке, чувствовать равновесие, находить красоту в людях и ситуациях. В тебе живёт дипломатичность и тонкий вкус. Твоя сила — в умении видеть разные точки зрения. Теряешь себя, когда пытаешься угодить всем одновременно и перестаёшь слышать собственное мнение.'},
+  scorpio: {title:'Скорпион', text:'Ты собираешь себя через глубину, трансформацию и контроль над ресурсами. Тебе важно докапываться до сути, видеть скрытое, действовать из позиции силы. В тебе — огромная внутренняя мощь. Твоя сила включается в кризис и сложных ситуациях. Теряешь себя, когда держишь всё под жёстким контролем и не позволяешь себе быть уязвимой.'},
+  sagittarius:{title:'Стрелец', text:'Ты собираешь себя через смысл, развитие и свободу. Тебе важно иметь большую цель, расширять горизонты, учить и вдохновлять. В тебе живёт оптимизм первооткрывателя. Твоя сила — в видении перспективы и умении передавать энтузиазм другим. Теряешь себя, когда тебя загоняют в узкие рамки или лишают пространства для роста.'},
+  capricorn:{title:'Козерог', text:'Ты собираешь себя через достижение, структуру и профессионализм. Тебе важно видеть результат своих усилий, занимать позицию, которую сама уважаешь. В тебе — дисциплина и умение строить долгосрочное. Твоя сила включается, когда есть ответственность и конкретная цель. Теряешь себя, когда начинаешь жить только через долг и забываешь про право на отдых и радость.'},
+  aquarius: {title:'Водолей', text:'Ты собираешь себя через свободу, идеи и причастность к чему-то большому. Тебе важно быть собой, не подчиняться стандартам, видеть картину шире. В тебе живёт умение смотреть в будущее и объединять людей вокруг идей. Теряешь себя, когда оказываешься в системе, которая требует слепого подчинения.'},
+  pisces:   {title:'Рыбы', text:'Ты собираешь себя через глубину чувств, интуицию и слияние с чем-то большим. Тебе важно чувствовать смысл, красоту, связь с людьми на тонком уровне. В тебе — огромная эмпатия и воображение. Твоя сила — в способности видеть невидимое и чувствовать то, что другие не замечают. Теряешь себя, когда нет границ и ты растворяешься в чужих состояниях.'}
+};
+
+const moonData = {
+  aries:   {title:'Овен', text:'Внутри ты реагируешь быстро и непосредственно. Тебе нужна активность, движение, ощущение что ты что-то делаешь — это твоя зона безопасности. Когда всё остановилось и надо ждать, становится неуютно. Эмоции вспыхивают ярко и быстро гаснут. Твоя мама или образ «мамы» в голове — активная, деятельная, возможно резкая женщина.'},
+  taurus:  {title:'Телец', text:'Внутри тебе нужна стабильность, красота и ощущение материального комфорта. Ты отдыхаешь через тело — еда, уют, тишина, природа. Эмоции плавные, ты не вспыхиваешь, но если тебя долго трогать — будет реакция. С трудом расстаёшься с привычным. Твоя внутренняя безопасность во многом строится на том, есть ли у тебя ресурсы.'},
+  gemini:  {title:'Близнецы', text:'Внутри тебе нужна информация, общение и смена картинки. Ты успокаиваешься через разговор — выговорилась, значит стало легче. Скучно и монотонно — плохо. Эмоции быстро меняются, тебе нужно много контактов. Иногда сложно понять, что именно чувствуешь — потому что слишком много всего и сразу.'},
+  cancer:  {title:'Рак', text:'Внутри тебе нужны тепло, близость и ощущение «своего места». Ты остро чувствуешь атмосферу — хорошо там, где безопасно и по-домашнему. Эмоции глубокие, можешь долго переживать внутри, не показывая. Тебе важно, чтобы тебя любили и принимали — и ты сама хочешь заботиться. Очень сильная связь с мамой.'},
+  leo:     {title:'Лев', text:'Внутри тебе нужно восхищение и ощущение, что ты замечена и ценима. Ты расцветаешь, когда есть праздник, внимание, возможность быть яркой. Тебе важно, чтобы твои чувства и переживания были услышаны. Эмоции демонстративны — ты не прячешь то, что чувствуешь. Теряешь себя, когда тебя игнорируют или относятся равнодушно.'},
+  virgo:   {title:'Дева', text:'Внутри тебе нужен порядок, польза и ощущение, что ты справляешься. Ты успокаиваешься через дело — что-то сделать, разложить по полочкам, привести в систему. Эмоции сдержанные, анализируешь их прежде чем проявить. Внутренний критик очень активен. Тебе сложно просто «быть» — нужно понимать, зачем и что это даёт.'},
+  libra:   {title:'Весы', text:'Внутри тебе нужна гармония и партнёрство. Ты плохо переносишь одиночество и открытые конфликты — в отношениях находишь свою зону безопасности. Эмоции сглаженные, тактичные. Тебе важно нравиться и быть принятой. Сложно принимать решения в одиночку — ищешь опору в другом человеке.'},
+  scorpio: {title:'Скорпион', text:'Внутри тебе нужна интенсивность и ощущение контроля над ситуацией. Ты живёшь в режиме постоянной готовности — внутреннее состояние «на стрёме». Эмоции глубокие и долгие, обиды помнишь. Тебе сложно расслабиться и довериться полностью. Зато в кризисе ты собираешься и действуешь лучше всего.'},
+  sagittarius:{title:'Стрелец', text:'Внутри тебе нужна свобода, развитие и ощущение смысла. Ты успокаиваешься через движение — путешествие, новые идеи, ощущение что растёшь. Эмоции оптимистичные, философские — ты умеешь видеть в плохом урок. Тебе тяжело в замкнутых рамках. Мотивация включается, когда видишь большую цель.'},
+  capricorn:{title:'Козерог', text:'Внутри тебе нужна структура и ощущение, что ты контролируешь свою жизнь. Ты плохо воспринимаешь хаос — наводишь порядок, выстраиваешь систему. Эмоции сдержанные, трудно посочувствовать, зато легко помочь делом. Тебе важно достигать и видеть результат — иначе возникает ощущение бессмысленности. Мама — строгая или профессиональная женщина.'},
+  aquarius: {title:'Водолей', text:'Внутри тебе нужна свобода и ощущение принадлежности к своим. Ты эмоционально дистанцирована — умеешь держать голову холодной там, где другие теряются. Твои «свои» — это друзья и единомышленники, не обязательно семья. Эмоции вспыхивают резко и быстро остывают. Тебе важно не чувствовать ограничений.'},
+  pisces:   {title:'Рыбы', text:'Внутри тебе нужно слияние, тишина и возможность побыть в своём мире. Ты крайне чувствительна — впитываешь чужие состояния как губка. Эмоции глубокие, полифоничные — часто сложно разобраться, что именно и откуда. Тебе важна возможность уединиться и восстановиться. Сильная интуиция — доверяй ей.'}
+};
+
+const ascData = {
+  aries:   {title:'Овен', text:'Ты производишь впечатление активного, уверенного человека — «человека дела», который знает чего хочет. Люди считывают тебя как прямолинейную и энергичную. Ты заходишь в любую ситуацию напористо, на первых этапах можешь спешить или казаться резкой — даже если внутри всё иначе. Это твой природный стартовый режим.'},
+  taurus:  {title:'Телец', text:'Ты производишь впечатление спокойного, надёжного человека с особым обаянием — чувствуется венерианский магнетизм. Люди считывают тебя как основательную и практичную. Ты входишь в ситуации медленно и аккуратно, не суетишься. Внешне сложно понять что ты чувствуешь — ты прячешь эмоции за внешним спокойствием.'},
+  gemini:  {title:'Близнецы', text:'Ты производишь впечатление лёгкого, весёлого, «своего» человека — к тебе тянутся, хочется сразу перейти на «ты». Люди считывают тебя как подвижную, любопытную, открытую. Ты быстро реагируешь, легко контактируешь. Можешь казаться более поверхностной, чем есть на самом деле — внутренняя глубина не сразу видна.'},
+  cancer:  {title:'Рак', text:'Ты производишь впечатление мягкого, доброго, немного грустного человека. Люди считывают тебя как заботливую и безопасную — к тебе хочется прийти с проблемой. Ты входишь в ситуации аккуратно, не создавая шума. Часто кажется, что тебя «не видно» — но это обманчиво.'},
+  leo:     {title:'Лев', text:'Ты производишь впечатление яркого, уверенного, притягивающего внимание человека. Люди считывают тебя как харизматичного лидера — в тебе чувствуется особая аура тепла и достоинства. Ты входишь в пространство открыто и заметно. Часто получаешь упрёки в эгоизме — хотя внутри гораздо больше уязвимости, чем видно снаружи.'},
+  virgo:   {title:'Дева', text:'Ты производишь впечатление надёжного, исполнительного человека, на которого можно положиться. Люди считывают тебя как ответственную и серьёзную. Ты входишь в ситуации аккуратно, тихо, мелкими шагами. Эмоции не показываешь сразу — чувствуется изначальная сдержанность. Тебя воспринимают как «человека дела», постоянно чем-то занятого.'},
+  libra:   {title:'Весы', text:'Ты производишь впечатление обаятельного, дипломатичного человека, с которым легко — «своей». Люди считывают тебя как тактичную и располагающую. Ты входишь в любой коллектив как нож в масло — легко, без трения. На стуле не сидится — всё время диалог с окружением. Тебя воспринимают как того, кому можно довериться.'},
+  scorpio: {title:'Скорпион', text:'Ты производишь впечатление серьёзного, мрачноватого, глубокого человека с внутренней силой. Тебя немного побаиваются, чувствуют, что ты видишь больше других. Ты входишь в ситуации тихо и незаметно — «по-партизански». Создаёшь эмоциональный накал одним присутствием. Это твоя природная энергетика, даже если ты сама её не замечаешь.'},
+  sagittarius:{title:'Стрелец', text:'Ты производишь впечатление честного, открытого человека с авторитетом — «носителя правды». Люди считывают тебя как экспансивную и покровительственную. Ты входишь в ситуации смело, без лишних извинений. В тебе чувствуется олимпийская манера — будто ты немного выше ситуации и знаешь куда идёшь.'},
+  capricorn:{title:'Козерог', text:'Ты производишь впечатление рассудочного, честолюбивого, ответственного человека. Люди считывают тебя как «человека власти» и профессионала. На первых этапах — холодок и задумчивость. Ты входишь уверенно, иногда неуклюже. На тебя хочется опереться — кажется, что ты знаешь как надо.'},
+  aquarius: {title:'Водолей', text:'Ты производишь впечатление дружелюбного, позитивного, нестандартного человека. Люди считывают тебя как творческого выдумщика с широкими проектами. Ты входишь в ситуации легко, без лишних церемоний. Сохраняешь дистанцию при видимой открытости — свобода для тебя важнее близости. Тебя воспринимают как источник идей и хорошего настроения.'},
+  pisces:   {title:'Рыбы', text:'Ты производишь впечатление идеалистичного, мягкого, немного загадочного человека. Люди считывают тебя как того, кому можно излить душу — ты кажешься безопасной. Ты входишь тихо, часто незаметно. На стуле «расплываешься» — удобно и по-своему. В тебе чувствуется глубина и особая романтичность.'},
+  unknown:  {title:'неизвестен', text:'Точное время рождения неизвестно — поэтому Асцендент определить невозможно. Но даже без него картина уже складывается: Солнце показывает твоё ядро, а Луна — как ты устроена внутри. Когда узнаешь время рождения, можешь прийти на полный разбор.'}
+};
+
+const synthData = {
+  getSynth(sun, moon, asc) {
+    const sT = sunData[sun].title;
+    const mT = moonData[moon].title;
+    const aT = (asc && asc !== 'unknown') ? ascData[asc].title : null;
+
+    const fire = ['aries','leo','sagittarius'];
+    const earth = ['taurus','virgo','capricorn'];
+    const water = ['cancer','scorpio','pisces'];
+    const air  = ['gemini','libra','aquarius'];
+
+    const el = s => fire.includes(s)?'огонь':earth.includes(s)?'земля':water.includes(s)?'вода':'воздух';
+    const sunEl  = el(sun);
+    const moonEl = el(moon);
+    const ascEl  = aT ? el(asc) : null;
+
+    // --- Солнце + Луна: внутренняя динамика ---
+    const pairs = {
+      // Одна стихия
+      'огонь+огонь': `Солнце и Луна в одной стихии — огне. Внешне ты хочешь действовать, двигаться, зажигать. Внутри — ровно то же самое. Это даёт редкую согласованность: тебе не надо убеждать себя начать, ты просто начинаешь. Риск в другом — огонь не умеет ждать, и внутренний мир так же нетерпелив, как внешний. Там, где нужна пауза или глубина, ты будешь испытывать сопротивление.`,
+      'земля+земля': `Солнце и Луна в одной стихии — земле. Ты стремишься к стабильности снаружи и нуждаешься в ней внутри. Это цельный, надёжный человек — и для себя, и для других. Ты умеешь строить, накапливать, держать. Но именно эта цельность может стать ловушкой: страх потерять устойчивость делает тебя негибкой там, где нужно рискнуть или отпустить.`,
+      'вода+вода':   `Солнце и Луна в одной стихии — воде. Ты живёшь в мире чувств — и снаружи, и внутри. Это огромная эмпатия, интуиция, глубина. Ты считываешь то, что другие не замечают, и чувствуешь то, что другие боятся признать. Но вода без берегов — это болото. Без структуры и границ ты рискуешь растворяться в чужих состояниях и терять контакт с тем, чего хочешь сама.`,
+      'воздух+воздух':`Солнце и Луна в одной стихии — воздухе. Ты думаешь — и снаружи, и внутри. Мир идей, общение, анализ — твоя среда обитания. Ты быстро схватываешь, легко переключаешься, умеешь работать с информацией. Уязвимость в том, что всё остаётся в голове: чувства анализируются вместо того чтобы проживаться, решения откладываются в пользу ещё одного аргумента.`,
+      // Противоположные
+      'огонь+вода':  `Солнце в огне, Луна в воде — классическое внутреннее противоречие. Снаружи ты хочешь действовать, проявляться, быть заметной. Внутри — нуждаешься в тишине, близости, безопасности. Эти два запроса постоянно конкурируют. Когда ты в действии — внутренний ребёнок хочет домой. Когда ты в покое — что-то внутри поднимается и говорит: ты не живёшь, ты прячешься. Это напряжение не исчезнет, но его можно научиться использовать как топливо.`,
+      'вода+огонь':  `Солнце в воде, Луна в огне — ты мягкая снаружи, взрывная внутри. Люди видят тебя как чуткого, глубокого человека. А внутри живёт огромная потребность в движении, импульсе, немедленном результате. Это противоречие часто проявляется как раздражение на себя: «почему я не действую?» — потому что внешнее Солнце требует осторожности, а внутренняя Луна хочет прямо сейчас. Ключ — дать обоим пространство по очереди.`,
+      'земля+воздух': `Солнце в земле, Луна в воздухе — ты хочешь конкретных результатов, но внутри тебе нужно разнообразие и движение. Снаружи — строишь, накапливаешь, удерживаешь. Внутри — скучаешь, ищешь новое, хочешь общения и перемен. Это создаёт внутренний конфликт: начатое тяжело заканчивать, потому что голова уже ушла дальше. Когда удаётся соединить стабильность с разнообразием — ты на пике.`,
+      'воздух+земля': `Солнце в воздухе, Луна в земле — ты легко думаешь и говоришь, но внутри нуждаешься в опоре и стабильности. Снаружи — гибкая, интеллектуальная, открытая к новому. Внутри — хочешь, чтобы всё было надёжно и предсказуемо. Это иногда мешает рисковать: голова говорит «давай», а тело говорит «подожди, а вдруг что-то рухнет». Внутренняя безопасность для тебя — обязательное условие для любого движения вперёд.`,
+      // Смежные (нейтральные)
+      'огонь+земля':  `Солнце в огне, Луна в земле — хочешь действовать быстро, но внутри нуждаешься в основании под ногами. Это хорошая комбинация для дела: инициатива есть, и она подкреплена потребностью видеть реальный результат. Риск — внутренняя Луна в земле будет тормозить там, где нужен прыжок без гарантий. Тебе важно иметь хоть какую-то точку опоры, прежде чем двигаться.`,
+      'земля+огонь':  `Солнце в земле, Луна в огне — снаружи ты устойчивая, практичная, последовательная. Внутри живёт запрос на движение и немедленный результат. Это может проявляться как внутреннее нетерпение, которое ты умеешь скрывать. Ты медленно разгоняешься, но когда разгоняешься — тебя сложно остановить. Главная ловушка — внутренний огонь, который не находит выхода, превращается в тревогу.`,
+      'огонь+воздух': `Солнце в огне, Луна в воздухе — ты заряжена снаружи и подвижна внутри. Идеи, движение, общение — твоя среда. Ты умеешь быстро загораться и быстро двигаться. Сложность в том, что обе стихии не любят тишину: когда нет импульса снаружи и нечего обдумывать внутри — становится неуютно. Умение останавливаться и просто быть — навык, который тебе придётся осваивать сознательно.`,
+      'воздух+огонь': `Солнце в воздухе, Луна в огне — думаешь быстро, реагируешь ещё быстрее. Внутри больше нетерпения, чем видно снаружи. Ты можешь производить впечатление рационального человека, а внутри бурлить. Это энергичная комбинация — много идей, много движения. Ловушка — скорость мышления обгоняет скорость действия, и можно застрять в планировании.`,
+      'вода+земля':   `Солнце в воде, Луна в земле — ты глубокая и чувствительная снаружи, но внутри нуждаешься в стабильности и конкретике. Это хорошая почва для практической работы с людьми: ты чувствуешь их, но не тонешь. Земная Луна даёт якорь. Риск — избыточная осторожность: прежде чем открыться, долго проверяешь, безопасно ли.`,
+      'земля+вода':   `Солнце в земле, Луна в воде — снаружи ты практичная и конкретная, внутри — очень чувствительная. Люди часто не догадываются, насколько глубоко ты всё переживаешь. Ты умеешь держать форму даже когда внутри шторм — это сила и одновременно твоя ловушка. Непрожитые чувства никуда не деваются, они копятся. Тебе важно иметь место и человека, где можно «вытащить» то, что внутри.`,
+      'вода+воздух':  `Солнце в воде, Луна в воздухе — ты чувствующая снаружи, думающая внутри. Это интересная комбинация: ты умеешь и считывать людей эмоционально, и анализировать происходящее. Сложность — внутренний голос склонен рационализировать чувства вместо того чтобы их проживать. «Я знаю почему мне больно» — но боль от этого не уходит.`,
+      'воздух+вода':  `Солнце в воздухе, Луна в воде — снаружи ты интеллектуальная и лёгкая, внутри — очень чувствительная. Люди видят в тебе лёгкость, а внутри ты всё глубоко переживаешь. Это рождает разрыв: тебя не воспринимают всерьёз там, где тебе важно. Твой вызов — научиться показывать глубину, не пряча её за лёгкостью.`,
+    };
+
+    const key = `${sunEl}+${moonEl}`;
+    let synth = pairs[key] || `Солнце в ${sT} и Луна в ${mT} — это ${sunEl} и ${moonEl}. Два разных внутренних запроса, которые формируют твою уникальную внутреннюю динамику.`;
+
+    // --- Асцендент ---
+    if(aT){
+      const ascTexts = {
+        aries:       `Асцендент в Овне — ты входишь в любую ситуацию стремительно. Первое впечатление: энергичная, решительная, «знает чего хочет». Это работает как магнит для тех, кто ищет лидера, и как раздражитель для тех, кто предпочитает осторожность. Важно: то, как тебя видят при первом знакомстве — это не всегда ты целиком. Внутри может быть совсем другой человек — и это нормально.`,
+        taurus:      `Асцендент в Тельце — ты производишь впечатление устойчивого, надёжного, приятного человека. В тебе чувствуется что-то магнетичное и тёплое — люди хотят быть рядом. Ты входишь в ситуации медленно, не спеша. Это может раздражать нетерпеливых, но зато тех, кто остаётся — удерживает надолго. Твоя «маска входа» говорит: я безопасна, я стабильна, мне можно доверять.`,
+        gemini:      `Асцендент в Близнецах — ты лёгкая, открытая, с тобой сразу хочется разговориться. Людям кажется, что ты проще, чем есть на самом деле. Это часто рождает ситуацию: тебя воспринимают поверхностно, а потом удивляются глубине. Ты умеешь подстраиваться под собеседника — это дар, но он же может превращаться в хамелеонство, когда теряешь себя в чужих ожиданиях.`,
+        cancer:      `Асцендент в Раке — ты мягкая, заботливая, к тебе хочется прийти с проблемой. Люди считывают тебя как безопасного человека. Это притягивает тех, кому нужна поддержка — и это же может тебя истощать, если ты не умеешь говорить «нет». Твоя «маска входа» — уют и принятие. Следи за тем, чтобы забота о других не вытесняла заботу о себе.`,
+        leo:         `Асцендент во Льве — ты заметна. Даже если молчишь — тебя видно. Люди считывают харизму, достоинство, тепло. Это открывает двери там, где другим надо долго стучаться. Но ожидания от тебя высокие — и ты это чувствуешь. Иногда образ «сильной и яркой» становится клеткой: внутри может быть усталость, а снаружи надо светить. Позволь себе иногда не светить.`,
+        virgo:       `Асцендент в Деве — ты производишь впечатление собранного, ответственного, делового человека. Тебя воспринимают как того, на кого можно положиться. Это ценят, но также — охотно нагружают. Ты входишь тихо, без лишнего шума, замечаешь детали, которые другие пропускают. Уязвимость: тебя могут недооценивать эмоционально, принимая за «функцию», а не за человека.`,
+        libra:       `Асцендент в Весах — ты обаятельная, дипломатичная, приятная в общении. С тобой легко — и это открывает много дверей. Люди тянутся, доверяют, хотят дружить. Но за этой лёгкостью легко спрятать внутренний конфликт — и ты это умеешь. Риск: тебя могут воспринимать как более согласную, чем ты есть, потому что ты не любишь открытой конфронтации.`,
+        scorpio:     `Асцендент в Скорпионе — ты входишь в пространство как человек, у которого есть тайна. Людей притягивает и одновременно слегка напрягает. Ты производишь впечатление глубокого, интенсивного, непростого человека — даже если внутри сейчас просто устала. Это рождает определённый тип отношений: поверхностные люди отсеиваются сами, остаются только те, кто готов к глубине.`,
+        sagittarius: `Асцендент в Стрельце — ты открытая, оптимистичная, с тобой интересно. Люди видят в тебе свободного, вдохновляющего человека. Ты легко начинаешь новое и легко зажигаешь других. Сложность: тебя могут воспринимать как непостоянную или несерьёзную — именно потому что ты слишком легко переключаешься внешне. Глубина внутри есть, но она не всегда видна.`,
+        capricorn:   `Асцендент в Козероге — ты производишь впечатление серьёзного, зрелого, профессионального человека. Тебе доверяют, к тебе обращаются за советом. Ты входишь в ситуации с достоинством и без лишних слов. Риск: тебя могут воспринимать как холодную или недоступную — и это закрывает контакт с теми, кто на самом деле тебе подходит, но боится подойти.`,
+        aquarius:    `Асцендент в Водолее — ты нестандартная. Люди чувствуют, что ты другая — иногда это восхищает, иногда отпугивает. Ты входишь в контакт через идеи и концепции, а не через эмоции. Это создаёт определённую дистанцию — и одновременно притягивает тех, кому скучно с «обычными» людьми. Твоя аура говорит: я вижу то, чего другие не видят.`,
+        pisces:      `Асцендент в Рыбах — ты мягкая, немного загадочная, с особой атмосферой вокруг. Люди чувствуют что-то тонкое — как будто ты знаешь что-то, чего не говоришь. Это притягивает, но и создаёт проекции: на тебя легко навешивают то, чего в тебе нет. Важно уметь говорить о себе конкретно — иначе тебя будут видеть через чужой фантазм, а не через тебя настоящую.`,
+      };
+      synth += `\n\n${ascTexts[asc] || `Асцендент в ${aT} — твоя «маска входа» в мир, то как тебя считывают до того, как узнают по-настоящему.`}`;
+
+      // --- Трёхсторонний синтез ---
+      const tension = (sunEl !== moonEl && sunEl !== ascEl && moonEl !== ascEl);
+      const twoSame = (sunEl === moonEl || sunEl === ascEl || moonEl === ascEl);
+      if(tension){
+        synth += `\n\nТри разные стихии — это значит, что у тебя нет «автоматического режима»: в зависимости от ситуации ты задействуешь разные части себя. Это гибкость, но и нагрузка. Такие люди часто ощущают, что они разные с разными людьми — и не понимают, кто из них «настоящий». Ответ: все. Просто у тебя сложнее устроен внутренний ансамбль.`;
+      } else if(twoSame){
+        const dominantEl = (sunEl === moonEl) ? sunEl : (sunEl === ascEl ? sunEl : moonEl);
+        synth += `\n\nДве из трёх точек в одной стихии (${dominantEl}) — это твоя доминирующая природа, которая проявляется и внутри, и снаружи. Третья точка вносит другой оттенок — и именно она часто становится зоной роста или источником внутреннего конфликта. Там, где стихии не совпадают — там и живёт самый важный вопрос про тебя.`;
+      }
+    } else {
+      synth += `\n\nАсцендент неизвестен — это важная точка, которую стоит узнать. Именно он объясняет, почему тебя воспринимают не совсем так, как ты себя ощущаешь.`;
+    }
+
+    return synth;
+  }
+};
+
+// Хранит текущие выборы для использования после оплаты
+let currentData = {};
+
+// Обрезает текст до первых N слов и добавляет многоточие
+function truncate(text, words) {
+  const arr = text.split(' ');
+  if(arr.length <= words) return text;
+  return arr.slice(0, words).join(' ') + '…';
+}
+
+function showResult(){
+  const sun = document.getElementById('sel-sun').value;
+  const moon = document.getElementById('sel-moon').value;
+  const asc = document.getElementById('sel-asc').value;
+
+  currentData = {sun, moon, asc};
+
+  const s = sunData[sun];
+  const m = moonData[moon];
+  const a = ascData[asc];
+
+  // ПРЕВЬЮ: первые ~25 слов из каждого блока
+  const sunPreview = truncate(s.text, 22);
+  const moonPreview = truncate(m.text, 22);
+
+  const synthText = synthData.getSynth(sun, moon, asc);
+
+  const html = `
+    <div class="card" style="margin-bottom:18px">
+      <div style="text-align:center;font-size:13px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:16px">Твой расклад</div>
+      <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:400;color:var(--ink)">
+        <span>☉ ${s.title}</span>
+        <span style="color:var(--warm)">·</span>
+        <span>☽ ${m.title}</span>
+        ${asc!=='unknown'?`<span style="color:var(--warm)">·</span><span>↑ ${a.title}</span>`:''}
+      </div>
+    </div>
+
+    <div class="synthesis" style="margin-bottom:18px">
+      <div class="synth-title">☉ ☽ ${asc!=='unknown'?'↑':''} <em>Синтез трёх точек</em></div>
+      <div class="synth-text">${synthText.split('\n\n').map(p=>`<p style="margin-bottom:14px">${p}</p>`).join('')}</div>
+    </div>
+
+    <div class="cta-block">
+      <div class="cta-who">Следующий шаг</div>
+      <div class="cta-product">
+        Мини-разбор <em>«Что тебе мешает проявляться?»</em>
+      </div>
+      <p style="font-size:13px;font-weight:300;color:var(--muted);line-height:1.7;margin-bottom:14px">
+        Ты уже увидела, из каких качеств складывается твоя личность
+        и какое впечатление ты производишь на людей.
+      </p>
+      <p style="font-size:13px;font-weight:300;color:var(--muted);line-height:1.7;margin-bottom:14px">
+        Но знать свои сильные стороны — ещё не значит свободно ими пользоваться.
+        Иногда яркость уже есть, но ты стараешься быть удобнее.
+        Экспертность есть, но сложно говорить о себе уверенно.
+        Идеи есть, но ты ждёшь идеального момента или разрешения окружающих.
+      </p>
+      <div style="background:rgba(184,146,74,.06);
+                  border:1px solid rgba(184,146,74,.15);
+                  border-radius:3px;
+                  padding:14px 16px;
+                  margin-bottom:16px">
+        <p style="font-size:13px;font-weight:500;color:var(--ink);line-height:1.6">
+          На мини-разборе мы не будем искать, что с тобой не так.
+          Мы посмотрим, как сделать заметнее то сильное, что уже есть в тебе.
+        </p>
+      </div>
+      <ul class="cta-list">
+        <li>какие качества могут стать твоей опорой в проявленности</li>
+        <li>какой внутренний стоп-сигнал сейчас тебя сдерживает</li>
+        <li>как тебе естественнее привлекать внимание и говорить о себе</li>
+        <li>как проявляться без копирования других и насилия над собой</li>
+        <li>какие 1–3 действия помогут сделать первый шаг</li>
+      </ul>
+      <p style="font-size:13px;font-weight:300;color:var(--muted);line-height:1.7;margin-bottom:14px">
+        В результате у тебя появится не абстрактное
+        «надо стать увереннее», а ясность:
+        <strong style="color:var(--ink);font-weight:500">
+          что показывать людям, на что опираться
+          и как начать проявляться по-своему.
+        </strong>
+      </p>
+      <p class="cta-note">
+        Голосовой разбор 20–30 минут + краткая письменная выжимка
+      </p>
+      <div class="cta-price">1 888 ₽</div>
+      <div class="cta-buttons" style="flex-direction:column;gap:10px">
+        <a href="https://t.me/jain1109"
+           target="_blank"
+           class="cta-btn cta-btn-tg">
+          Хочу мини-разбор
+        </a>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('result-content').innerHTML = html;
+  show('s-result');
+}
+
+function restart(){
+  document.getElementById('sel-sun').value='';
+  document.getElementById('sel-moon').value='';
+  document.getElementById('sel-asc').value='';
+  document.getElementById('btn-sun').disabled=true;
+  document.getElementById('btn-moon').disabled=true;
+  document.getElementById('btn-asc').disabled=true;
+  show('s-start');
+}
+</script>
+</body>
+</html>

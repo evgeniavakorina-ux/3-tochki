@@ -607,11 +607,7 @@ h1:focus, h2:focus { outline: none; }
 
 </div>
 
-<script src="vendor/astronomy.browser.min.js"></script>
-<script src="vendor/moment.min.js"></script>
-<script src="vendor/moment-timezone-with-data.min.js"></script>
-<script src="vendor/tz-lookup.js"></script>
-<script src="astro-core.js"></script>
+<script src="astro-core.js?v=2"></script>
 <script>
 // ===== СТИХИИ =====
 const ELEMENTS = {
@@ -1322,6 +1318,7 @@ function runCalc(ev) {
   try {
     r = AstroCore.compute({ y, m, d, h, min, timeKnown: !timeUnknown, lat, lon, offsetOverrideMin: offset });
   } catch (e) {
+    if (typeof AstroCore === 'undefined') return setBirthError('Модуль расчёта не загрузился. Обнови страницу или выбери знаки вручную.');
     return setBirthError('Не получилось рассчитать. Проверь данные или выбери знаки вручную.');
   }
   if (r.status === 'nonexistent') {

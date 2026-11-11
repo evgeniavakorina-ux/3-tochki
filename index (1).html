@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Формула проявленности по натальной карте | Евгения Вакорина</title>
+<meta name="description" content="Узнай, как тебе естественнее проявляться по Солнцу, Луне и Асценденту. Бесплатный мини-разбор от астролога Евгении Вакориной.">
+<link rel="canonical" href="https://evgeniavakorina-ux.github.io/proiavlenostvk/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Как тебе проявляться, чтобы тебя замечали">
+<meta property="og:description" content="Выбери три точки натальной карты и получи свою формулу проявленности.">
+<meta property="og:url" content="https://evgeniavakorina-ux.github.io/proiavlenostvk/">
+<meta property="og:image" content="https://evgeniavakorina-ux.github.io/proiavlenostvk/assets/og-preview.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="theme-color" content="#f5f0e8">
+
+<!-- добавь favicon: <link rel="icon" href="favicon.png" type="image/png"> -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #1a1410;
+  --cream: #f5f0e8;
+  --warm: #e8ddd0;
+  --gold: #b8924a;
+  --gold-l: #d4ac6a;
+  --rust: #8b4a2a;
+  --muted: #7a6e64;
+  --card: #faf7f2;
+}
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  min-height: 100vh;
+  padding: 24px 16px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 15% 20%, rgba(184,146,74,.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 85% 80%, rgba(139,74,42,.06) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap { width: 100%; max-width: 580px; margin: 0 auto; position: relative; z-index: 1; }
+
+.screen { animation: fadeIn .5s ease both; padding: 24px 0 32px; }
+.screen[hidden] { display: none; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+.eyebrow, .label {
+  font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold); text-align: center; margin-bottom: 20px;
+}
+
+h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 9vw, 46px);
+  font-weight: 300; line-height: 1.15; text-align: center; margin-bottom: 14px;
+}
+h1 em { font-style: italic; color: var(--rust); }
+
+h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(24px, 6vw, 30px);
+  font-weight: 400; line-height: 1.2; text-align: center; margin-bottom: 14px;
+}
+h2 em { font-style: italic; color: var(--rust); }
+
+.intro-description, .sub {
+  font-size: 14px; font-weight: 300; color: var(--muted); text-align: center;
+  line-height: 1.65; margin-bottom: 20px; max-width: 420px; margin-left: auto; margin-right: auto;
+}
+
+.astro-icons {
+  text-align: center; font-size: 32px; letter-spacing: 8px; color: var(--gold);
+  opacity: .7; margin-bottom: 20px;
+}
+
+.intro-result {
+  font-size: 14px; font-weight: 500; color: var(--ink); text-align: center;
+  line-height: 1.6; margin-bottom: 18px;
+}
+
+.intro-meta {
+  display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;
+  font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px;
+  margin-bottom: 26px;
+}
+.intro-meta span { padding: 4px 0; }
+
+.deco { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+.deco::before, .deco::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.deco span { font-size: 16px; color: var(--gold); letter-spacing: 6px; }
+
+.card {
+  background: var(--card); border: 1px solid rgba(184,146,74,.2); border-radius: 4px;
+  padding: 28px 24px; margin-bottom: 18px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+.step-num { font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.step-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; margin-bottom: 6px; }
+.step-desc { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
+
+.how-to { background: rgba(184,146,74,.06); border: 1px solid rgba(184,146,74,.15); border-radius: 3px; padding: 14px 16px; margin-bottom: 20px; }
+.how-to p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.how-to strong { color: var(--ink); font-weight: 500; }
+.how-to a { color: var(--gold); text-decoration: none; }
+.how-to a:hover { text-decoration: underline; }
+
+details.help { margin-bottom: 20px; font-size: 12px; }
+details.help summary {
+  cursor: pointer; color: var(--gold); font-weight: 500; list-style: none;
+  padding: 4px 0;
+}
+details.help summary::-webkit-details-marker { display: none; }
+details.help summary::before { content: '+ '; }
+details.help[open] summary::before { content: '− '; }
+details.help p { color: var(--muted); line-height: 1.6; margin: 8px 0; }
+details.help a { color: var(--gold); text-decoration: none; font-weight: 500; }
+details.help a:hover { text-decoration: underline; }
+
+details.help ol.help-steps { list-style: none; counter-reset: step; margin: 10px 0 2px; padding: 0; }
+details.help ol.help-steps li {
+  position: relative; padding-left: 26px; margin-bottom: 9px;
+  color: var(--muted); font-size: 12px; line-height: 1.6; counter-increment: step;
+}
+details.help ol.help-steps li::before {
+  content: counter(step);
+  position: absolute; left: 0; top: 0; width: 18px; height: 18px;
+  border-radius: 50%; background: rgba(184,146,74,.15); color: var(--gold);
+  font-size: 10px; font-weight: 600; line-height: 18px; text-align: center;
+}
+details.help ol.help-steps li strong { color: var(--ink); }
+
+label.field-label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+
+select {
+  width: 100%; padding: 13px 16px; border: 1px solid rgba(184,146,74,.3); border-radius: 3px;
+  background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 16px;
+  appearance: none; min-height: 48px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23b8924a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center; cursor: pointer;
+}
+select:focus { outline: none; border-color: var(--gold); }
+select[aria-invalid="true"] { border-color: var(--rust); }
+
+.field-error { font-size: 12px; color: var(--rust); margin-top: 8px; }
+.field-error[hidden] { display: none; }
+
+.btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+  min-height: 48px; padding: 16px 24px; background: var(--ink); color: var(--cream);
+  border: none; border-radius: 3px; font-family: 'DM Sans', sans-serif; font-size: 15px;
+  font-weight: 500; cursor: pointer; transition: all .2s;
+}
+.btn:hover { background: #2d2520; transform: translateY(-1px); }
+.btn:disabled { opacity: .35; cursor: not-allowed; transform: none; }
+.btn.button--secondary, .btn-ghost {
+  background: transparent; color: var(--muted); border: 1px solid rgba(122,110,100,.3); margin-top: 10px;
+}
+.btn.button--secondary:hover, .btn-ghost:hover { background: rgba(122,110,100,.06); color: var(--ink); }
+
+
+/* BIRTH FORM */
+.field {
+  width: 100%; padding: 12px 14px; border: 1px solid rgba(184,146,74,.3); border-radius: 3px;
+  background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 16px;
+  min-height: 48px; margin-bottom: 16px; -webkit-appearance: none; appearance: none;
+}
+.field:focus { outline: none; border-color: var(--gold); }
+.field[aria-invalid="true"] { border-color: var(--rust); }
+label.check { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); margin: -6px 0 18px; cursor: pointer; }
+label.check input { width: 18px; height: 18px; accent-color: var(--gold); }
+.city-row { display: flex; gap: 8px; }
+.city-row .field { margin-bottom: 0; }
+.btn.btn-small { width: auto; min-height: 48px; padding: 0 18px; font-size: 14px; flex-shrink: 0; }
+.field-hint { font-size: 12px; color: var(--muted); margin: 8px 0 8px; min-height: 1em; }
+.city-results { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.city-results button {
+  text-align: left; background: var(--cream); border: 1px solid rgba(184,146,74,.25); border-radius: 3px;
+  padding: 10px 12px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--ink); cursor: pointer; min-height: 44px;
+}
+.city-results button:hover, .city-results button[aria-pressed="true"] { border-color: var(--gold); background: rgba(184,146,74,.08); }
+.city-results small { display: block; color: var(--muted); font-size: 12px; }
+.place-info { font-size: 12px; color: var(--muted); background: rgba(184,146,74,.06); border: 1px solid rgba(184,146,74,.15); border-radius: 3px; padding: 10px 12px; margin-bottom: 16px; line-height: 1.6; }
+.place-info strong { color: var(--ink); font-weight: 500; }
+.geo-row { display: flex; gap: 10px; }
+.geo-row > div { flex: 1; }
+.calc-point { padding: 10px 0; border-bottom: 1px solid rgba(184,146,74,.15); }
+.calc-point:last-child { border-bottom: none; }
+.calc-point .cp-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; }
+.calc-point .cp-note { font-size: 13px; color: var(--muted); line-height: 1.6; margin-top: 4px; }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.chips button { border: 1px solid rgba(184,146,74,.35); background: var(--cream); border-radius: 20px; padding: 8px 14px; font-family: 'DM Sans', sans-serif; font-size: 14px; cursor: pointer; min-height: 40px; color: var(--ink); }
+.chips button[aria-pressed="true"] { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+.calc-notes { font-size: 13px; color: var(--rust); line-height: 1.6; margin: 10px 0 16px; }
+.calc-notes:empty { display: none; }
+details.tech { margin-top: 18px; margin-bottom: 0; }
+details.tech table { width: 100%; border-collapse: collapse; font-size: 12px; color: var(--muted); margin-top: 8px; }
+details.tech td { padding: 3px 4px; border-bottom: 1px solid rgba(184,146,74,.1); vertical-align: top; }
+details.tech td:first-child { color: var(--ink); white-space: nowrap; }
+
+/* progress */
+.progress { margin-bottom: 26px; }
+.progress__line { width: 100%; height: 3px; background: var(--warm); border-radius: 2px; overflow: hidden; margin-bottom: 8px; }
+.progress__fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--rust), var(--gold)); transition: width .35s ease; }
+.progress__text { display: block; text-align: center; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+
+/* RESULT */
+.result-header { text-align: center; margin-bottom: 24px; }
+.result-signs {
+  display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;
+  font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--ink); margin-bottom: 14px;
+}
+.result-formula { font-size: 15px; font-weight: 400; line-height: 1.7; color: #3a3028; max-width: 460px; margin: 0 auto; }
+
+.result-card {
+  background: var(--card); border: 1px solid rgba(184,146,74,.2); border-radius: 4px;
+  padding: 20px 20px; margin-bottom: 16px; position: relative;
+}
+.result-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+.result-card--accent {
+  background: linear-gradient(135deg, rgba(139,74,42,.05), rgba(184,146,74,.07));
+}
+.result-card--accent::before { background: linear-gradient(90deg, var(--rust), var(--gold), var(--gold-l)); }
+.result-card h3 {
+  font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 400; margin-bottom: 10px; color: var(--ink);
+}
+.result-card p { font-size: 14px; font-weight: 300; line-height: 1.75; color: #3a3028; }
+.result-card ul { list-style: none; }
+.result-card ul li {
+  font-size: 14px; font-weight: 300; line-height: 1.7; color: #3a3028;
+  padding-left: 18px; position: relative; margin-bottom: 8px;
+}
+.result-card ul li::before { content: '—'; position: absolute; left: 0; color: var(--gold); }
+
+.result-disclaimer { font-size: 12px; font-weight: 300; font-style: italic; color: var(--muted); line-height: 1.6; margin: 20px 0 28px; text-align: center; }
+
+/* AUTHOR */
+.author { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 28px; }
+.author img { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 2px solid var(--gold-l); }
+.author .eyebrow { text-align: left; margin-bottom: 6px; }
+.author h2 { text-align: left; margin-bottom: 8px; }
+.author p { font-size: 13px; font-weight: 300; color: #3a3028; line-height: 1.7; }
+
+/* OFFER */
+.offer {
+  border: 1px solid rgba(184,146,74,.2); border-radius: 4px; padding: 28px 24px;
+  background: var(--card); position: relative; margin-bottom: 20px;
+}
+.offer::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--rust), var(--gold), var(--gold-l));
+}
+.offer h2 { text-align: left; margin-bottom: 14px; }
+.offer > p { font-size: 13px; font-weight: 300; color: #3d3530; line-height: 1.7; margin-bottom: 14px; }
+.offer ul { list-style: none; margin-bottom: 16px; }
+.offer ul li {
+  font-size: 13px; font-weight: 300; line-height: 1.6; color: #3d3530;
+  padding-left: 16px; position: relative; margin-bottom: 6px;
+}
+.offer ul li::before { content: '—'; position: absolute; left: 0; color: var(--gold); }
+.offer-format { font-size: 12px; font-weight: 300; color: var(--muted); font-style: italic; margin-bottom: 12px; }
+.offer-price { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 600; color: var(--gold); margin-bottom: 16px; }
+
+.button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 48px; padding: 14px 20px; border-radius: 3px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; text-decoration: none; transition: all .2s; letter-spacing: .3px; border: none; cursor: pointer; }
+.button--primary { background: #0077FF; color: #fff; }
+.button--primary:hover { background: #0066dd; transform: translateY(-1px); }
+.button-link { display: block; text-align: center; margin-top: 12px; font-size: 13px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+.button-link:hover { color: var(--ink); }
+
+.restart-link { text-align: center; margin-top: 6px; }
+.restart-link button { background: none; border: none; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--muted); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; padding: 8px; min-height: 44px; }
+.restart-link button:hover { color: var(--ink); }
+
+.button:focus-visible,
+select:focus-visible,
+.field:focus-visible,
+summary:focus-visible,
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid #9a653d; outline-offset: 3px;
+}
+
+h1:focus, h2:focus { outline: none; }
+
+@media (max-width: 640px) {
+  .wrap { width: min(100% - 8px, 620px); }
+  .card, .result-card, .offer { padding: 22px 18px; }
+  .author { flex-direction: column; align-items: center; text-align: center; }
+  .author .eyebrow, .author h2 { text-align: center; }
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- INTRO -->
+<section class="screen" id="s-intro">
+  <p class="eyebrow">Бесплатный мини-разбор по натальной карте</p>
+  <div class="astro-icons" aria-hidden="true">☉ ☽ ↑</div>
+
+  <h1>Как тебе проявляться,<br>чтобы тебя <em>замечали</em></h1>
+
+  <p class="intro-description">
+    Солнце покажет, на какие качества тебе важно опираться. Луна — при каких условиях ты раскрываешься или закрываешься. Асцендент — как тебя считывают люди.
+  </p>
+
+  <p class="intro-result">Соединим три точки и получим твою формулу проявленности.</p>
+
+  <div class="intro-meta">
+    <span>3 минуты</span>
+    <span>Без регистрации</span>
+    <span>Можно без точного времени рождения</span>
+  </div>
+
+  <button id="start-button" class="btn">Узнать свою формулу проявленности →</button>
+</section>
+
+<!-- BIRTH DATA (автоматический расчёт) -->
+<section class="screen" id="s-birth" hidden>
+  <div class="card">
+    <div class="step-num">Данные рождения</div>
+    <h2 class="step-title">Рассчитаю твои три точки</h2>
+    <p class="step-desc">Введи дату, время и место рождения — Солнце, Луну и Асцендент посчитаю сама. Данные никуда не сохраняются.</p>
+
+    <form id="birth-form" novalidate>
+      <label class="field-label" for="birth-date">Дата рождения</label>
+      <input type="date" id="birth-date" class="field" min="1900-01-01" required>
+
+      <label class="field-label" for="birth-time">Время рождения (местное, как в свидетельстве)</label>
+      <input type="time" id="birth-time" class="field" step="60">
+      <label class="check">
+        <input type="checkbox" id="birth-time-unknown"> Не знаю время рождения
+      </label>
+
+      <label class="field-label" for="birth-city">Город или населённый пункт рождения</label>
+      <div class="city-row">
+        <input type="text" id="birth-city" class="field" autocomplete="off" placeholder="Например, Архангельск">
+        <button type="button" class="btn btn-small" id="city-search">Найти</button>
+      </div>
+      <p class="field-hint" id="city-status" aria-live="polite"></p>
+      <p class="field-hint">Поиск городов: © участники <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer" style="color:inherit">OpenStreetMap</a></p>
+      <div id="city-results" class="city-results"></div>
+      <p class="place-info" id="place-info" hidden></p>
+
+      <details class="help" id="manual-geo">
+        <summary>Уточнить координаты и часовой пояс вручную</summary>
+        <p>Если города нет в списке или ты знаешь точные данные. Широта севернее — с плюсом, южнее — с минусом; долгота восточнее Гринвича — с плюсом.</p>
+        <div class="geo-row">
+          <div><label class="field-label" for="geo-lat">Широта</label><input type="number" id="geo-lat" class="field" step="0.0001" min="-90" max="90" placeholder="64.5401"></div>
+          <div><label class="field-label" for="geo-lon">Долгота</label><input type="number" id="geo-lon" class="field" step="0.0001" min="-180" max="180" placeholder="40.5433"></div>
+        </div>
+        <label class="field-label" for="geo-offset">Смещение от UTC на момент рождения (оставь пустым — определится автоматически)</label>
+        <input type="text" id="geo-offset" class="field" placeholder="например, +4 или +3:30" inputmode="text">
+      </details>
+
+      <p id="birth-error" class="field-error" role="alert" hidden></p>
+      <button type="submit" class="btn" id="btn-calc">Рассчитать →</button>
+    </form>
+  </div>
+
+  <div id="calc-result" class="card calc-result" hidden aria-live="polite">
+    <div class="step-num">Твои три точки</div>
+    <div id="calc-points"></div>
+    <p id="calc-notes" class="calc-notes"></p>
+    <button class="btn" id="btn-calc-result" disabled>Показать мою формулу →</button>
+    <button class="btn button--secondary" id="btn-calc-manual">Поправить знаки вручную</button>
+    <details class="help tech">
+      <summary>Технические детали расчёта</summary>
+      <div id="calc-tech"></div>
+    </details>
+  </div>
+
+  <button class="btn button--secondary" id="btn-skip-calc">Я знаю свои знаки — выбрать вручную</button>
+  <button class="btn button--secondary" id="back-birth">← Назад</button>
+</section>
+
+<!-- SUN -->
+<section class="screen" id="s-sun" hidden>
+  <div class="progress" role="progressbar" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1" aria-label="Шаг 1 из 3">
+    <div class="progress__line"><div class="progress__fill"></div></div>
+    <span class="progress__text">Шаг 1 из 3</span>
+  </div>
+
+  <div class="card">
+    <div class="step-num">Шаг 1 из 3</div>
+    <h2 class="step-title">☉ Твоё Солнце</h2>
+    <p class="step-desc">Солнце показывает, на какие качества тебе важно опираться, чтобы чувствовать себя уверенно и действовать по-своему.</p>
+    <div class="how-to"><p><strong>Как найти:</strong> это твой обычный знак зодиака по дате рождения — тот самый, который все знают.</p></div>
+
+    <label class="field-label" for="sel-sun">Выбери знак Солнца</label>
+    <select id="sel-sun" name="sun" required>
+      <option value="">— выбери знак —</option>
+      <option value="aries">♈ Овен</option>
+      <option value="taurus">♉ Телец</option>
+      <option value="gemini">♊ Близнецы</option>
+      <option value="cancer">♋ Рак</option>
+      <option value="leo">♌ Лев</option>
+      <option value="virgo">♍ Дева</option>
+      <option value="libra">♎ Весы</option>
+      <option value="scorpio">♏ Скорпион</option>
+      <option value="sagittarius">♐ Стрелец</option>
+      <option value="capricorn">♑ Козерог</option>
+      <option value="aquarius">♒ Водолей</option>
+      <option value="pisces">♓ Рыбы</option>
+    </select>
+    <p id="sun-error" class="field-error" role="alert" hidden>Выбери знак Солнца, чтобы продолжить.</p>
+  </div>
+
+  <button class="btn" id="btn-sun" disabled>Далее →</button>
+  <button class="btn button--secondary" id="back-sun">← Назад</button>
+</section>
+
+<!-- MOON -->
+<section class="screen" id="s-moon" hidden>
+  <div class="progress" role="progressbar" aria-valuemin="1" aria-valuemax="3" aria-valuenow="2" aria-label="Шаг 2 из 3">
+    <div class="progress__line"><div class="progress__fill"></div></div>
+    <span class="progress__text">Шаг 2 из 3</span>
+  </div>
+
+  <div class="card">
+    <div class="step-num">Шаг 2 из 3</div>
+    <h2 class="step-title">☽ Твоя Луна</h2>
+    <p class="step-desc">Луна показывает, что помогает тебе чувствовать себя безопасно, а из-за чего ты можешь закрываться, сомневаться или откладывать проявление.</p>
+
+    <label class="field-label" for="sel-moon">Выбери знак Луны</label>
+    <select id="sel-moon" name="moon" required>
+      <option value="">— выбери знак —</option>
+      <option value="aries">♈ Овен</option>
+      <option value="taurus">♉ Телец</option>
+      <option value="gemini">♊ Близнецы</option>
+      <option value="cancer">♋ Рак</option>
+      <option value="leo">♌ Лев</option>
+      <option value="virgo">♍ Дева</option>
+      <option value="libra">♎ Весы</option>
+      <option value="scorpio">♏ Скорпион</option>
+      <option value="sagittarius">♐ Стрелец</option>
+      <option value="capricorn">♑ Козерог</option>
+      <option value="aquarius">♒ Водолей</option>
+      <option value="pisces">♓ Рыбы</option>
+    </select>
+    <p id="moon-error" class="field-error" role="alert" hidden>Выбери знак Луны, чтобы продолжить.</p>
+
+    <details class="help">
+      <summary>Не знаешь знак Луны?</summary>
+      <p>Проще всего — <a href="#" class="go-birth">рассчитать по дате рождения</a>. Или в астропроцессоре:</p>
+      <ol class="help-steps">
+        <li>Перейди на <a href="https://sotis-online.ru/" target="_blank" rel="noopener noreferrer">sotis.online</a> — бесплатный астропроцессор</li>
+        <li>Выбери «Создать одинарную карту»</li>
+        <li>Введи дату и место рождения. Время указывай, если знаешь — в этот день Луна могла сменить знак</li>
+        <li>В таблице рядом с колесом карты найди строку <strong>☽</strong> — рядом будет знак зодиака</li>
+      </ol>
+    </details>
+  </div>
+
+  <button class="btn" id="btn-moon" disabled>Далее →</button>
+  <button class="btn button--secondary" id="back-moon">← Назад</button>
+</section>
+
+<!-- ASC -->
+<section class="screen" id="s-asc" hidden>
+  <div class="progress" role="progressbar" aria-valuemin="1" aria-valuemax="3" aria-valuenow="3" aria-label="Шаг 3 из 3">
+    <div class="progress__line"><div class="progress__fill"></div></div>
+    <span class="progress__text">Шаг 3 из 3</span>
+  </div>
+
+  <div class="card">
+    <div class="step-num">Шаг 3 из 3</div>
+    <h2 class="step-title">↑ Твой Асцендент</h2>
+    <p class="step-desc">Асцендент показывает, как ты входишь в новые ситуации, какое первое впечатление производишь и через какой образ тебя быстрее замечают люди.</p>
+
+    <label class="field-label" for="sel-asc">Выбери знак Асцендента</label>
+    <select id="sel-asc" name="asc" required>
+      <option value="">— выбери знак —</option>
+      <option value="aries">♈ Овен</option>
+      <option value="taurus">♉ Телец</option>
+      <option value="gemini">♊ Близнецы</option>
+      <option value="cancer">♋ Рак</option>
+      <option value="leo">♌ Лев</option>
+      <option value="virgo">♍ Дева</option>
+      <option value="libra">♎ Весы</option>
+      <option value="scorpio">♏ Скорпион</option>
+      <option value="sagittarius">♐ Стрелец</option>
+      <option value="capricorn">♑ Козерог</option>
+      <option value="aquarius">♒ Водолей</option>
+      <option value="pisces">♓ Рыбы</option>
+      <option value="unknown">Не знаю время рождения</option>
+    </select>
+    <p id="asc-error" class="field-error" role="alert" hidden>Выбери знак Асцендента, чтобы продолжить.</p>
+
+    <details class="help">
+      <summary>Как узнать Асцендент?</summary>
+      <p>Проще всего — <a href="#" class="go-birth">рассчитать по дате, времени и месту рождения</a>. Или в астропроцессоре:</p>
+      <ol class="help-steps">
+        <li>Перейди на <a href="https://sotis-online.ru/" target="_blank" rel="noopener noreferrer">sotis.online</a> — бесплатный астропроцессор</li>
+        <li>Выбери «Создать одинарную карту»</li>
+        <li>Введи дату, <strong>точное время</strong> и место рождения — без времени Асцендент не считается</li>
+        <li>В таблице рядом с колесом карты найди строку <strong>As</strong> — рядом будет знак зодиака</li>
+      </ol>
+    </details>
+  </div>
+
+  <button class="btn" id="btn-asc" disabled>Показать результат →</button>
+  <button class="btn button--secondary" id="back-asc">← Назад</button>
+</section>
+
+<!-- RESULT -->
+<section class="screen" id="s-result" hidden aria-live="polite">
+
+  <header class="result-header">
+    <p class="eyebrow">Твой результат</p>
+    <h2>Твоя формула проявленности</h2>
+    <div id="result-signs" class="result-signs"></div>
+    <p id="result-formula" class="result-formula"></p>
+  </header>
+
+  <div class="result-card">
+    <h3>На что тебе важно опираться</h3>
+    <p id="result-strength"></p>
+  </div>
+
+  <div class="result-card">
+    <h3>Из-за чего ты можешь закрываться</h3>
+    <p id="result-block"></p>
+  </div>
+
+  <div id="asc-result-card" class="result-card">
+    <h3>Как тебя считывают люди</h3>
+    <p id="result-impression"></p>
+  </div>
+
+  <div class="result-card result-card--accent">
+    <h3>Где возникает внутренний конфликт</h3>
+    <p id="result-conflict"></p>
+  </div>
+
+  <div class="result-card">
+    <h3>Как проявляться по-своему</h3>
+    <ul id="result-actions"></ul>
+  </div>
+
+  <p class="result-disclaimer">
+    Это базовый разбор трёх точек натальной карты. Он показывает общую формулу проявленности, но не учитывает дома, аспекты и другие показатели карты.
+  </p>
+
+  <!-- AUTHOR -->
+  <section class="author">
+    <!-- вставь своё фото: <img src="evgenia.jpg" alt="Евгения Вакорина, астролог" width="96" height="96" loading="lazy"> -->
+    <div>
+      <p class="eyebrow">Автор калькулятора</p>
+      <h2>Евгения Вакорина</h2>
+      <p>Астролог, таролог, интегратор ПВС. Я не просто рассказываю, какая ты по натальной карте, а показываю, как использовать свои особенности в проявленности, личном бренде и реализации.</p>
+    </div>
+  </section>
+
+  <!-- OFFER -->
+  <section class="offer">
+    <p class="eyebrow">Следующий шаг</p>
+    <h2>Три точки — это только начало</h2>
+    <p>Солнце, Луна и Асцендент дают общую формулу. А почему ты где-то тормозишь, на что тебе реально опереться и как с этим жить каждый день — видно только по всей натальной карте.</p>
+    <p>Для этого есть персональный разбор <strong>«Ты: инструкция к себе»</strong>. Я собираю показатели твоей карты в одну систему и объясняю простым языком: как ты устроена и что с этим делать.</p>
+    <p class="offer-format">Голосовые сообщения + PDF. 7 дней на уточняющие вопросы.</p>
+
+    <a href="https://vk.ru/im?sel=-224753072" id="cta-vk" class="button button--primary" target="_blank" rel="noopener noreferrer">
+      Хочу инструкцию к себе →
+    </a>
+    <a href="https://t.me/jain1109" id="cta-telegram" class="button-link" target="_blank" rel="noopener noreferrer">
+      Удобнее написать в Telegram
+    </a>
+  </section>
+
+  <div class="restart-link">
+    <button id="restart-button">Пройти калькулятор заново</button>
+  </div>
+
+</section>
+
+</div>
+
+<script src="astro-core.js?v=2"></script>
+<script>
+// ===== СТИХИИ =====
+const ELEMENTS = {
+  fire:  ['aries', 'leo', 'sagittarius'],
+  earth: ['taurus', 'virgo', 'capricorn'],
+  water: ['cancer', 'scorpio', 'pisces'],
+  air:   ['gemini', 'libra', 'aquarius']
+};
+
+function getElement(sign) {
+  for (const [el, signs] of Object.entries(ELEMENTS)) {
+    if (signs.includes(sign)) return el;
+  }
+  return null;
+}
+
+// ===== СОЛНЦЕ — «что тебе важно показывать» =====
+const sunData = {
+  aries: {
+    name: 'Овен',
+    strength: 'Ты собираешь себя через действие и инициативу — тебе важно быть первой и двигаться вперёд, а не ждать разрешения.',
+    manifestation: 'Тебя замечают через энергию первопроходца: ты задаёшь импульс и заряжаешь пространство вокруг себя.',
+    risk: 'Теряешь себя, когда вынуждена ждать или подстраиваться под чужой темп — энергия уходит внутрь и превращается в раздражение.',
+    action: 'Не жди идеального момента — начинай с малого действия сегодня, импульс важнее готового плана.'
+  },
+  taurus: {
+    name: 'Телец',
+    strength: 'Ты собираешь себя через стабильность и конкретный результат — тебе важно ощущать почву под ногами, а не гнаться за скоростью.',
+    manifestation: 'Тебя замечают через умение создавать ценность из дела, навыка, материи — то, что видно и можно потрогать.',
+    risk: 'Теряешь себя, когда тебя торопят или выдёргивают из привычного ритма — сопротивление включается автоматически.',
+    action: 'Дай себе время разогнаться, но назначь конкретный срок — иначе стабильность превращается в топтание на месте.'
+  },
+  gemini: {
+    name: 'Близнецы',
+    strength: 'Ты собираешь себя через общение и новую информацию — тебе важно быть в контакте и в движении, а не стоять на месте.',
+    manifestation: 'Тебя замечают через гибкость мышления и умение соединять людей и смыслы, которые другим кажутся разрозненными.',
+    risk: 'Теряешь себя в рутине без обновления — когда картинка не меняется, интерес гаснет и ты выключаешься.',
+    action: 'Меняй формат хотя бы раз в неделю — новая тема, новый человек, новый угол. Это твоё топливо.'
+  },
+  cancer: {
+    name: 'Рак',
+    strength: 'Ты собираешь себя через близость и ощущение дома — тебе важно чувствовать себя нужной и защищённой.',
+    manifestation: 'Тебя замечают через чувствительность — ты считываешь то, что другие пропускают, и людям с тобой спокойно.',
+    risk: 'Теряешь себя, когда рядом нет близкого человека или приходится прятать чувства ради удобства других.',
+    action: 'Разреши себе показывать, что чувствуешь, хотя бы одному человеку — прятать состояние дороже, чем кажется.'
+  },
+  leo: {
+    name: 'Лев',
+    strength: 'Ты собираешь себя через творчество и признание — тебе важно создавать и оставлять след, а не сливаться с фоном.',
+    manifestation: 'Тебя замечают через щедрость и тепло — ты умеешь дарить внимание так, что рядом с тобой хочется быть.',
+    risk: 'Теряешь себя, когда тебя игнорируют или заставляют быть «как все» — тогда яркость гаснет изнутри.',
+    action: 'Занимай пространство первой, не жди приглашения — твоя сила включается в центре, а не в углу.'
+  },
+  virgo: {
+    name: 'Дева',
+    strength: 'Ты собираешь себя через пользу и точность — тебе важно понимать, зачем ты это делаешь и в чём твоя реальная ценность.',
+    manifestation: 'Тебя замечают через компетентность и умение видеть детали, которые другие пропускают, превращая хаос в систему.',
+    risk: 'Теряешь себя, когда доказываешь ценность через идеальность или критикуешь себя жёстче любой внешней ситуации.',
+    action: 'Показывай процесс, а не только готовый результат — идеальный момент, чтобы начать, не наступит.'
+  },
+  libra: {
+    name: 'Весы',
+    strength: 'Ты собираешь себя через гармонию и связь с людьми — тебе важно чувствовать равновесие, а не воевать за правоту.',
+    manifestation: 'Тебя замечают через дипломатичность и тонкий вкус — ты умеешь видеть ситуацию с разных сторон.',
+    risk: 'Теряешь себя, когда пытаешься угодить всем сразу и перестаёшь слышать собственное мнение.',
+    action: 'Прежде чем соглашаться, спроси себя: а чего хочу я — и озвучь это первой, а не последней.'
+  },
+  scorpio: {
+    name: 'Скорпион',
+    strength: 'Ты собираешь себя через глубину и контроль над ресурсами — тебе важно докапываться до сути, а не верить на слово.',
+    manifestation: 'Тебя замечают через внутреннюю мощь — твоя сила включается именно в кризис и в сложных ситуациях.',
+    risk: 'Теряешь себя, когда держишь всё под жёстким контролем и не позволяешь себе быть уязвимой.',
+    action: 'Отпусти контроль хотя бы в одной сфере — не всё нужно держать, чтобы не развалилось.'
+  },
+  sagittarius: {
+    name: 'Стрелец',
+    strength: 'Ты собираешь себя через смысл и свободу — тебе важно иметь большую цель, а не мелкую задачу на сегодня.',
+    manifestation: 'Тебя замечают через оптимизм первооткрывателя — ты видишь перспективу и заражаешь энтузиазмом других.',
+    risk: 'Теряешь себя, когда тебя загоняют в узкие рамки или лишают пространства для роста.',
+    action: 'Сформулируй цель на год вперёд — мелкие задачи без большого смысла тебя не заводят.'
+  },
+  capricorn: {
+    name: 'Козерог',
+    strength: 'Ты собираешь себя через достижение и структуру — тебе важно видеть результат усилий и уважать свою позицию.',
+    manifestation: 'Тебя замечают через дисциплину и умение строить долгосрочное — тебе доверяют, потому что ты доводишь до конца.',
+    risk: 'Теряешь себя, когда живёшь только через долг и забываешь про право на отдых и радость.',
+    action: 'Запланируй отдых так же серьёзно, как проект — иначе он просто не случится.'
+  },
+  aquarius: {
+    name: 'Водолей',
+    strength: 'Ты собираешь себя через свободу и идеи — тебе важно быть собой и не подчиняться чужим стандартам.',
+    manifestation: 'Тебя замечают через умение смотреть в будущее и объединять людей вокруг идеи, которая шире привычного.',
+    risk: 'Теряешь себя в системе, которая требует слепого подчинения — там гаснет всё живое.',
+    action: 'Найди или создай своё сообщество единомышленников — в одиночку идея не долетит, ей нужны те, кто её разделит.'
+  },
+  pisces: {
+    name: 'Рыбы',
+    strength: 'Ты собираешь себя через глубину чувств и интуицию — тебе важно ощущать смысл и тонкую связь с людьми.',
+    manifestation: 'Тебя замечают через эмпатию и воображение — ты чувствуешь то, что другие даже не заметили.',
+    risk: 'Теряешь себя, когда нет границ — тогда растворяешься в чужих состояниях и не находишь себя обратно.',
+    action: 'Ставь границы раньше, чем устанешь — «нет» без объяснений тоже полноценный ответ.'
+  }
+};
+
+// ===== ЛУНА — «что помогает раскрыться / что заставляет закрываться» =====
+const moonData = {
+  aries: {
+    name: 'Овен',
+    safety: 'Тебе легче раскрыться, когда есть движение и ощущение, что ты что-то делаешь — это твоя зона безопасности.',
+    block: 'Закрываешься, когда всё остановилось и надо просто ждать — бездействие выбивает тебя из колеи.',
+    support: 'Дай себе физическую разрядку перед важным решением — телу нужно выпустить пар, прежде чем голова успокоится.'
+  },
+  taurus: {
+    name: 'Телец',
+    safety: 'Тебе легче раскрыться в комфорте и стабильности — уют, тишина, ощущение, что ресурсы есть.',
+    block: 'Закрываешься, когда тебя резко выдёргивают из привычного или давят на то, что у тебя есть.',
+    support: 'Сначала верни себе телесный комфорт — еда, сон, тишина — и только потом принимай решение.'
+  },
+  gemini: {
+    name: 'Близнецы',
+    safety: 'Тебе легче раскрыться в разговоре — выговорилась, и стало легче. Тишина внутри тебя не лечит.',
+    block: 'Закрываешься в скуке и монотонности — когда картинка не меняется, интерес и открытость гаснут вместе.',
+    support: 'Проговори состояние вслух хотя бы с одним человеком, прежде чем решать, что именно ты чувствуешь.'
+  },
+  cancer: {
+    name: 'Рак',
+    safety: 'Тебе легче раскрыться там, где тепло и ощущение «своего места» — безопасность важнее всего остального.',
+    block: 'Закрываешься, когда атмосфера холодная или тебя не принимают — считываешь это моментально, даже без слов.',
+    support: 'Создай себе физическое место, куда можно спрятаться и восстановиться — своя комната, ритуал, час в одиночестве.'
+  },
+  leo: {
+    name: 'Лев',
+    safety: 'Тебе легче раскрыться, когда тебя замечают и ценят — внимание для тебя не роскошь, а топливо.',
+    block: 'Закрываешься от равнодушия — игнор ранит тебя сильнее прямой критики.',
+    support: 'Не жди, когда заметят сами — говори прямо, что тебе важно услышать, вместо того чтобы обижаться молча.'
+  },
+  virgo: {
+    name: 'Дева',
+    safety: 'Тебе легче раскрыться через дело — навести порядок, разложить по полочкам, почувствовать, что справляешься.',
+    block: 'Закрывает тебя внутренний критик — ты анализируешь чувства так долго, что не успеваешь их прожить.',
+    support: 'Разреши себе один день без продуктивности в неделю — «просто быть» тоже навык, и его можно тренировать.'
+  },
+  libra: {
+    name: 'Весы',
+    safety: 'Тебе легче раскрыться в паре и в гармонии — одиночество и открытый конфликт для тебя самое неуютное состояние.',
+    block: 'Закрываешься, когда нужно принимать решение в одиночку без опоры на чьё-то мнение.',
+    support: 'Тренируй маленькие решения без консультаций — начни с выбора, где поесть, и дойди до вопросов покрупнее.'
+  },
+  scorpio: {
+    name: 'Скорпион',
+    safety: 'Тебе легче раскрыться, когда ты чувствуешь контроль над ситуацией — интенсивность не страшна, страшна беспомощность.',
+    block: 'Закрываешься от всего, что требует довериться раньше, чем ты готова — доверие ты выдаёшь не сразу и не всем.',
+    support: 'Не жди полной готовности, чтобы открыться — доверие строится маленькими шагами, а не одним прыжком.'
+  },
+  sagittarius: {
+    name: 'Стрелец',
+    safety: 'Тебе легче раскрыться в движении — путешествие, новая идея, ощущение, что ты растёшь, а не стоишь на месте.',
+    block: 'Закрываешься в замкнутых рамках — рутина без горизонта душит тебя быстрее любой критики.',
+    support: 'Добавь в свою неделю хотя бы одно новое направление — тему, место, разговор. Иначе включится тревога без причины.'
+  },
+  capricorn: {
+    name: 'Козерог',
+    safety: 'Тебе легче раскрыться, когда ты контролируешь свою жизнь и видишь структуру — хаос выбивает тебя из колеи сильнее всего.',
+    block: 'Закрываешься, когда нет ощутимого результата — бессмысленность действий выключает тебя изнутри.',
+    support: 'Позволь себе не достигать хотя бы иногда — отдых не нужно заслуживать результатом.'
+  },
+  aquarius: {
+    name: 'Водолей',
+    safety: 'Тебе легче раскрыться среди «своих» — единомышленников, не обязательно семьи, там, где не ограничивают.',
+    block: 'Закрываешься от любого давления и требования быть предсказуемой — ограничение для тебя хуже конфликта.',
+    support: 'Найди своих людей осознанно — не жди, что случайное окружение подойдёт, ищи тех, кто мыслит похоже.'
+  },
+  pisces: {
+    name: 'Рыбы',
+    safety: 'Тебе легче раскрыться в тишине и уединении — там, где можно побыть в своём мире без чужих состояний.',
+    block: 'Закрываешься, когда впитываешь слишком много чужого — эмпатия без границ превращается в истощение.',
+    support: 'Возвращай себе границы физически — смени обстановку, прежде чем разбираться, что из этого твоё, а что нет.'
+  }
+};
+
+// ===== АСЦЕНДЕНТ — «как считывают / через какую подачу замечают» =====
+const ascData = {
+  aries: {
+    name: 'Овен',
+    impression: 'Ты производишь впечатление активного, уверенного человека — «человека дела», который знает, чего хочет.',
+    visibleStyle: 'Тебе подходит прямая, энергичная подача — заходи в тему сразу, без долгих раскачек и предисловий.',
+    risk: 'Можешь казаться резкой или спешащей на старте, даже если внутри совсем другое состояние.',
+    recommendation: 'Используй первое впечатление, а не борись с ним — заявляй о себе первой, не жди приглашения.'
+  },
+  taurus: {
+    name: 'Телец',
+    impression: 'Ты производишь впечатление спокойного, надёжного человека с особым магнетизмом — рядом с тобой чувствуют стабильность.',
+    visibleStyle: 'Тебе подходит неторопливая, качественная подача — без спешки, но с ощутимой ценностью в каждом слове.',
+    risk: 'Можешь казаться закрытой — ты прячешь эмоции за внешним спокойствием, и это не всегда читают верно.',
+    recommendation: 'Не бойся показывать чуть больше живого — надёжность не пострадает от искренности.'
+  },
+  gemini: {
+    name: 'Близнецы',
+    impression: 'Ты производишь впечатление лёгкого, открытого человека — с тобой сразу хочется заговорить.',
+    visibleStyle: 'Тебе подходит живая, разговорная подача — истории, диалог, вопросы к аудитории.',
+    risk: 'Тебя могут воспринимать поверхностно, а потом удивляться глубине — первое впечатление тебя недооценивает.',
+    recommendation: 'Показывай глубину сразу, не жди, пока люди «дорастут» — вставляй личные истории с самого начала.'
+  },
+  cancer: {
+    name: 'Рак',
+    impression: 'Ты производишь впечатление мягкого, заботливого человека — к тебе хочется прийти с проблемой.',
+    visibleStyle: 'Тебе подходит тёплая, личная подача — с заботой об аудитории, без давления и напора.',
+    risk: 'Тебя часто «не видно» — заботливость считывается легче, чем твоя экспертность.',
+    recommendation: 'Говори о своей ценности прямо — забота не отменяет права заявлять о профессионализме.'
+  },
+  leo: {
+    name: 'Лев',
+    impression: 'Ты заметна даже в молчании — люди считывают харизму, достоинство и тепло.',
+    visibleStyle: 'Тебе подходит яркая, выразительная подача и узнаваемый образ — не прячься за обезличенным контентом.',
+    risk: 'Ожидания от тебя высокие, и образ «сильной и яркой» может стать клеткой в дни усталости.',
+    recommendation: 'Разреши себе иногда не светить — уязвимость на публику работает на тебя не хуже уверенности.'
+  },
+  virgo: {
+    name: 'Дева',
+    impression: 'Ты производишь впечатление собранного, ответственного человека, на которого можно положиться.',
+    visibleStyle: 'Тебе подходит структурная, полезная подача — чек-листы, конкретика, разбор по шагам.',
+    risk: 'Тебя могут недооценивать эмоционально, воспринимая как «функцию», а не как человека.',
+    recommendation: 'Добавляй в контент личное, не только пользу — экспертность без лица быстро забывается.'
+  },
+  libra: {
+    name: 'Весы',
+    impression: 'Ты производишь впечатление обаятельного, дипломатичного человека, с которым легко.',
+    visibleStyle: 'Тебе подходит эстетичная, гармоничная подача — визуал и тон значат не меньше, чем смысл.',
+    risk: 'Тебя могут воспринимать более согласной, чем ты есть — потому что ты не любишь открытую конфронтацию.',
+    recommendation: 'Позволяй себе прямо не соглашаться в контенте — твёрдая позиция не разрушит твоё обаяние.'
+  },
+  scorpio: {
+    name: 'Скорпион',
+    impression: 'Ты входишь в пространство как человек с тайной — притягиваешь и слегка напрягаешь одновременно.',
+    visibleStyle: 'Тебе подходит глубокая, немного закрытая подача — не всё показывать сразу, оставлять слой для тех, кто останется.',
+    risk: 'Поверхностные люди отсеиваются сами, но с ними может уйти и часть охвата — и это нормально для тебя.',
+    recommendation: 'Не бойся фильтровать аудиторию через глубину — тебе не нужны все, тебе нужны те, кто готов к сути.'
+  },
+  sagittarius: {
+    name: 'Стрелец',
+    impression: 'Ты производишь впечатление открытого, оптимистичного человека — с тобой интересно и легко.',
+    visibleStyle: 'Тебе подходит вдохновляющая, смелая подача — с широким горизонтом и большими темами.',
+    risk: 'Тебя могут воспринимать как несерьёзную — потому что ты слишком легко переключаешься внешне.',
+    recommendation: 'Показывай глубину через конкретные истории и результат — лёгкость не должна маскировать компетентность.'
+  },
+  capricorn: {
+    name: 'Козерог',
+    impression: 'Ты производишь впечатление серьёзного, профессионального человека — тебе доверяют и идут за советом.',
+    visibleStyle: 'Тебе подходит статусная, экспертная подача — без лишних эмодзи и заигрывания с аудиторией.',
+    risk: 'Тебя могут воспринимать холодной или недоступной — и это отсекает тех, кто подходит, но боится подойти.',
+    recommendation: 'Добавь в подачу немного тепла и юмора — это не снизит статус, а сделает тебя ближе.'
+  },
+  aquarius: {
+    name: 'Водолей',
+    impression: 'Люди чувствуют, что ты другая — иногда это восхищает, иногда отпугивает.',
+    visibleStyle: 'Тебе подходит нестандартная подача через идеи и концепции, а не через эмоции.',
+    risk: 'Создаёшь определённую дистанцию — и не всем это близко, зато притягиваешь тех, кому скучно с «обычными».',
+    recommendation: 'Не сглаживай свою непохожесть ради удобства аудитории — она и есть твоё позиционирование.'
+  },
+  pisces: {
+    name: 'Рыбы',
+    impression: 'Ты производишь впечатление мягкого, немного загадочного человека — как будто знаешь что-то, чего не говоришь.',
+    visibleStyle: 'Тебе подходит атмосферная, образная подача — через метафоры и настроение, а не сухие факты.',
+    risk: 'На тебя легко навешивают чужие проекции — то, чего в тебе на самом деле нет.',
+    recommendation: 'Говори о себе максимально конкретно — иначе тебя будут видеть через чужую фантазию, а не через тебя настоящую.'
+  },
+  unknown: {
+    name: 'не указан',
+    impression: 'Точное время рождения неизвестно, поэтому Асцендент определить нельзя.',
+    visibleStyle: 'Твой результат построен на Солнце и Луне — этого достаточно, чтобы увидеть основную формулу проявленности.',
+    risk: '',
+    recommendation: 'Как узнаешь точное время рождения — приходи, посмотрим полную картину.'
+  }
+};
+
+// ===== СИНТЕЗ СТИХИЙ СОЛНЦА И ЛУНЫ =====
+const sunMoonSynthesis = {
+  'fire-fire': {
+    formula: 'Солнце и Луна в одной стихии — огне. Внешне ты хочешь действовать, внутри — то же самое, и это редкая согласованность.',
+    conflict: 'Огонь не умеет ждать — там, где нужна пауза или глубина, ты чувствуешь сопротивление, а не спокойствие.',
+    solution: 'Дай себе право на паузу без чувства вины — это не слабость, а единственный способ не выгореть.'
+  },
+  'earth-earth': {
+    formula: 'Солнце и Луна в одной стихии — земле. Ты стремишься к стабильности снаружи и нуждаешься в ней внутри — цельный, надёжный человек.',
+    conflict: 'Эта цельность может стать ловушкой: страх потерять устойчивость делает тебя негибкой там, где нужно рискнуть.',
+    solution: 'Тренируй маленькие риски осознанно — устойчивость не рухнет от одного эксперимента.'
+  },
+  'water-water': {
+    formula: 'Солнце и Луна в одной стихии — воде. Ты живёшь в мире чувств — и снаружи, и внутри. Огромная эмпатия и глубина.',
+    conflict: 'Вода без берегов — болото. Без структуры и границ ты растворяешься в чужих состояниях и теряешь контакт с собой.',
+    solution: 'Ставь границы раньше, чем устанешь — структура не убьёт чувствительность, а сохранит её.'
+  },
+  'air-air': {
+    formula: 'Солнце и Луна в одной стихии — воздухе. Мир идей, общение, анализ — твоя естественная среда.',
+    conflict: 'Всё остаётся в голове: чувства анализируются вместо того чтобы проживаться, решения откладываются в пользу ещё одного аргумента.',
+    solution: 'Начинай действовать до того, как соберёшь все аргументы — идеальной ясности не будет, и это нормально.'
+  },
+  'fire-water': {
+    formula: 'Солнце в огне, Луна в воде — классическое внутреннее противоречие. Снаружи хочешь действовать, внутри нуждаешься в тишине и безопасности.',
+    conflict: 'Когда ты в действии — внутренний ребёнок хочет домой. Когда в покое — что-то внутри говорит: ты не живёшь, ты прячешься.',
+    solution: 'Не выбирай одну сторону — чередуй действие и восстановление осознанно, вместо того чтобы срываться из крайности в крайность.'
+  },
+  'water-fire': {
+    formula: 'Солнце в воде, Луна в огне — ты мягкая снаружи, взрывная внутри. Люди видят чуткого человека, а внутри живёт потребность в немедленном результате.',
+    conflict: 'Это часто звучит как раздражение на себя: «почему я не действую?» — потому что Солнце просит осторожности, а Луна хочет прямо сейчас.',
+    solution: 'Дай внутреннему огню выход в безопасной форме — спорт, резкое решение, короткий рывок — прежде чем он превратится в самокритику.'
+  },
+  'earth-air': {
+    formula: 'Солнце в земле, Луна в воздухе — хочешь конкретных результатов, но внутри нужно разнообразие и движение.',
+    conflict: 'Начатое тяжело заканчивать, потому что голова уже ушла дальше — конфликт между усидчивостью и любопытством.',
+    solution: 'Разбивай долгие проекты на разнообразные этапы — так земля получает результат, а воздух не задыхается от монотонности.'
+  },
+  'air-earth': {
+    formula: 'Солнце в воздухе, Луна в земле — легко думаешь и говоришь, но внутри нуждаешься в опоре и стабильности.',
+    conflict: 'Голова говорит «давай», а внутри — «подожди, а вдруг что-то рухнет» — это иногда мешает рисковать.',
+    solution: 'Создай себе подушку безопасности перед рискованным шагом — так внутренняя земля разрешит воздуху двигаться.'
+  },
+  'fire-earth': {
+    formula: 'Солнце в огне, Луна в земле — хочешь действовать быстро, но внутри нуждаешься в основании под ногами.',
+    conflict: 'Внутренняя земля тормозит там, где нужен прыжок без гарантий — и это может выглядеть как нерешительность.',
+    solution: 'Ищи минимальную точку опоры перед стартом, а не полную гарантию — земле хватит малого, чтобы отпустить.'
+  },
+  'earth-fire': {
+    formula: 'Солнце в земле, Луна в огне — снаружи ты устойчивая и практичная, внутри живёт запрос на движение и немедленный результат.',
+    conflict: 'Внутренний огонь, который не находит выхода, превращается в тревогу, которую ты умеешь хорошо скрывать.',
+    solution: 'Дай внутреннему огню регулярный выход — иначе он проявится не там и не тогда, когда ты выберешь сама.'
+  },
+  'fire-air': {
+    formula: 'Солнце в огне, Луна в воздухе — ты заряжена снаружи и подвижна внутри. Идеи, движение, общение — твоя среда.',
+    conflict: 'Обе стихии не любят тишину — когда нет импульса снаружи и нечего обдумывать внутри, становится неуютно.',
+    solution: 'Учись останавливаться и просто быть без цели и темы для разговора — этот навык придётся осваивать сознательно.'
+  },
+  'air-fire': {
+    formula: 'Солнце в воздухе, Луна в огне — думаешь быстро, реагируешь ещё быстрее. Внутри больше нетерпения, чем видно снаружи.',
+    conflict: 'Скорость мышления обгоняет скорость действия — легко застрять в планировании и не дойти до старта.',
+    solution: 'Ставь себе жёсткий дедлайн на решение — иначе анализ будет длиться дольше, чем само действие.'
+  },
+  'water-earth': {
+    formula: 'Солнце в воде, Луна в земле — глубокая и чувствительная снаружи, но внутри нужна стабильность и конкретика.',
+    conflict: 'Избыточная осторожность: прежде чем открыться, долго проверяешь, безопасно ли это на самом деле.',
+    solution: 'Разреши себе открываться постепенно, а не сразу полностью — земляной Луне нужна проверка временем, и это нормально.'
+  },
+  'earth-water': {
+    formula: 'Солнце в земле, Луна в воде — снаружи практичная и конкретная, внутри — очень чувствительная. Ты умеешь держать форму, даже когда внутри шторм.',
+    conflict: 'Непрожитые чувства никуда не деваются — они копятся, пока форма держится безупречно.',
+    solution: 'Найди место и человека, где можно «вытащить» то, что внутри — форма не должна держаться в одиночку.'
+  },
+  'water-air': {
+    formula: 'Солнце в воде, Луна в воздухе — чувствующая снаружи, думающая внутри. Ты умеешь и считывать людей эмоционально, и анализировать происходящее.',
+    conflict: '«Я знаю, почему мне больно» — но боль от этого не уходит. Внутренний голос рационализирует чувства вместо того чтобы их проживать.',
+    solution: 'Позволь себе прожить чувство до того, как начнёшь его объяснять — анализ подождёт, боль — нет.'
+  },
+  'air-water': {
+    formula: 'Солнце в воздухе, Луна в воде — снаружи интеллектуальная и лёгкая, внутри очень чувствительная.',
+    conflict: 'Тебя не воспринимают всерьёз там, где тебе важно — лёгкость снаружи прячет глубину, о которой никто не знает.',
+    solution: 'Показывай глубину сознательно — не жди, что её заметят сами, лёгкость слишком хорошо её маскирует.'
+  }
+};
+
+const defaultSynthesis = {
+  formula: 'Твоё Солнце и Луна соединяют два разных запроса — внешний и внутренний. Именно это сочетание и формирует твою уникальную внутреннюю динамику.',
+  conflict: 'Там, где эти запросы расходятся, обычно и возникает внутреннее напряжение — стоит присмотреться именно туда.',
+  solution: 'Дай обеим сторонам пространство по очереди — не заставляй одну постоянно перекрывать другую.'
+};
+
+function getElementPair(first, second) {
+  const direct = `${first}-${second}`;
+  const reverse = `${second}-${first}`;
+  return sunMoonSynthesis[direct] || sunMoonSynthesis[reverse] || defaultSynthesis;
+}
+
+// Дополнительная строка про соотношение всех трёх точек (когда известен Асцендент)
+function getTensionNote(sunEl, moonEl, ascEl) {
+  if (!ascEl) {
+    return 'Асцендент неизвестен — стоит узнать: он часто объясняет, почему тебя воспринимают не совсем так, как ты сама себя ощущаешь.';
+  }
+  const allDifferent = sunEl !== moonEl && sunEl !== ascEl && moonEl !== ascEl;
+  if (allDifferent) {
+    return 'Три разные стихии — значит, у тебя нет «автоматического режима»: в разных ситуациях включаются разные части тебя. Это гибкость, но и нагрузка.';
+  }
+  return 'Две точки из трёх — в одной стихии. Это твоя доминирующая природа. Третья вносит другой оттенок, и часто именно там живёт главный вопрос про тебя.';
+}
+
+// ===== APP =====
+// ===== METRIKA =====
+const METRIKA_ID = 0; // ЗАМЕНИ 0 на свой числовой ID счётчика Яндекс Метрики (без кавычек)
+
+function sendGoal(goalName) {
+  if (typeof window.ym === 'function') {
+    window.ym(METRIKA_ID, 'reachGoal', goalName);
+  }
+}
+
+// ===== STATE =====
+const state = {
+  sun: sessionStorage.getItem('manifestationSun') || '',
+  moon: sessionStorage.getItem('manifestationMoon') || '',
+  asc: sessionStorage.getItem('manifestationAsc') || '',
+  step: sessionStorage.getItem('manifestationStep') || 'intro'
+};
+
+function saveAnswer(key, value) {
+  state[key] = value;
+  sessionStorage.setItem(`manifestation${capitalize(key)}`, value);
+}
+
+function capitalize(s) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+// ===== UTM =====
+(function captureUTM() {
+  const params = new URLSearchParams(window.location.search);
+  ['utm_source', 'utm_medium', 'utm_campaign'].forEach(key => {
+    const value = params.get(key);
+    if (value) sessionStorage.setItem(key, value);
+  });
+})();
+
+// ===== SCREENS =====
+const STEP_ORDER = ['intro', 'birth', 'sun', 'moon', 'asc', 'result'];
+const STEP_PROGRESS = { sun: 1, moon: 2, asc: 3 };
+
+function showScreen(screenId) {
+  document.querySelectorAll('.screen').forEach(screen => {
+    screen.hidden = true;
+  });
+
+  const activeScreen = document.getElementById(`s-${screenId}`);
+  if (!activeScreen) return;
+
+  activeScreen.hidden = false;
+
+  state.step = screenId;
+  sessionStorage.setItem('manifestationStep', screenId);
+
+  const heading = activeScreen.querySelector('h1, h2');
+  if (heading) {
+    heading.setAttribute('tabindex', '-1');
+    heading.focus({ preventScroll: true });
+  }
+
+  window.scrollTo({
+    top: 0,
+    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+  });
+
+  if (STEP_PROGRESS[screenId]) {
+    updateProgress(STEP_PROGRESS[screenId]);
+  }
+}
+
+function updateProgress(step) {
+  document.querySelectorAll('.progress').forEach(progress => {
+    const fill = progress.querySelector('.progress__fill');
+    const text = progress.querySelector('.progress__text');
+    const pct = (step / 3) * 100;
+    fill.style.width = `${pct}%`;
+    text.textContent = `Шаг ${step} из 3`;
+    progress.setAttribute('aria-valuenow', step);
+    progress.setAttribute('aria-label', `Шаг ${step} из 3`);
+  });
+}
+
+// ===== VALIDATION =====
+function validateSelect(select, errorEl, btn) {
+  const isValid = Boolean(select.value);
+  if (errorEl) errorEl.hidden = isValid;
+  select.setAttribute('aria-invalid', String(!isValid));
+  if (btn) btn.disabled = !isValid;
+  return isValid;
+}
+
+// ===== INIT SELECTS =====
+function initSelects() {
+  const map = [
+    { id: 'sel-sun', key: 'sun', btn: 'btn-sun', err: 'sun-error' },
+    { id: 'sel-moon', key: 'moon', btn: 'btn-moon', err: 'moon-error' },
+    { id: 'sel-asc', key: 'asc', btn: 'btn-asc', err: 'asc-error' }
+  ];
+
+  map.forEach(({ id, key, btn, err }) => {
+    const select = document.getElementById(id);
+    const button = document.getElementById(btn);
+    const errorEl = document.getElementById(err);
+    if (!select) return;
+
+    if (state[key]) select.value = state[key];
+    validateSelect(select, errorEl, button);
+
+    select.addEventListener('change', () => {
+      saveAnswer(key, select.value);
+      validateSelect(select, errorEl, button);
+      sendGoal(`${key}_selected`);
+    });
+  });
+}
+
+// ===== NAVIGATION =====
+function goTo(screenId) {
+  showScreen(screenId);
+}
+
+function startCalculator() {
+  sendGoal('calc_start');
+  goTo('birth');
+}
+
+function goMoon() {
+  if (!state.sun) return;
+  goTo('moon');
+}
+
+function goAsc() {
+  if (!state.moon) return;
+  goTo('asc');
+}
+
+// ===== RESULT =====
+function showResult() {
+  if (!state.asc) return;
+
+  const sun = sunData[state.sun];
+  const moon = moonData[state.moon];
+  const asc = ascData[state.asc];
+
+  const sunEl = getElement(state.sun);
+  const moonEl = getElement(state.moon);
+  const ascEl = state.asc !== 'unknown' ? getElement(state.asc) : null;
+
+  const synthesis = getElementPair(sunEl, moonEl);
+  const tensionNote = getTensionNote(sunEl, moonEl, ascEl);
+
+  document.getElementById('result-signs').textContent =
+    state.asc === 'unknown'
+      ? `☉ ${sun.name} · ☽ ${moon.name}`
+      : `☉ ${sun.name} · ☽ ${moon.name} · ↑ ${asc.name}`;
+
+  document.getElementById('result-formula').textContent = synthesis.formula;
+
+  document.getElementById('result-strength').textContent = `${sun.strength} ${sun.manifestation}`;
+  document.getElementById('result-block').textContent = `${moon.block} ${sun.risk}`;
+
+  const ascCard = document.getElementById('asc-result-card');
+  if (state.asc === 'unknown') {
+    ascCard.hidden = true;
+  } else {
+    ascCard.hidden = false;
+    document.getElementById('result-impression').textContent = `${asc.impression} ${asc.visibleStyle}`;
+  }
+
+  document.getElementById('result-conflict').textContent = `${synthesis.conflict} ${tensionNote}`;
+
+  renderActions([sun.action, moon.support, asc.recommendation].filter(Boolean));
+
+  goTo('result');
+  sendGoal('calc_result_view');
+}
+
+function renderActions(actions) {
+  const list = document.getElementById('result-actions');
+  list.innerHTML = '';
+  actions.forEach(action => {
+    const li = document.createElement('li');
+    li.textContent = action;
+    list.appendChild(li);
+  });
+}
+
+// ===== RESTART =====
+function restartCalculator() {
+  ['manifestationSun', 'manifestationMoon', 'manifestationAsc', 'manifestationStep'].forEach(key => {
+    sessionStorage.removeItem(key);
+  });
+
+  state.sun = '';
+  state.moon = '';
+  state.asc = '';
+
+  ['sel-sun', 'sel-moon', 'sel-asc'].forEach(id => {
+    const select = document.getElementById(id);
+    if (select) select.value = '';
+  });
+  ['btn-sun', 'btn-moon', 'btn-asc'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) btn.disabled = true;
+  });
+
+  sendGoal('restart_click');
+  resetBirthForm();
+  goTo('intro');
+}
+
+// ===== АВТОМАТИЧЕСКИЙ РАСЧЁТ =====
+const SIGN_RU = {
+  aries: 'Овен', taurus: 'Телец', gemini: 'Близнецы', cancer: 'Рак', leo: 'Лев', virgo: 'Дева',
+  libra: 'Весы', scorpio: 'Скорпион', sagittarius: 'Стрелец', capricorn: 'Козерог', aquarius: 'Водолей', pisces: 'Рыбы'
+};
+const HOUSE_RU = { placidus: 'Плацидус', equal_asc: 'равнодомная от Асцендента' };
+
+// Данные рождения живут только в памяти страницы и никуда не сохраняются.
+const calc = { place: null, picked: { sun: '', moon: '', asc: '' }, last: null };
+
+function $(id) { return document.getElementById(id); }
+
+function setBirthError(msg) {
+  const el = $('birth-error');
+  el.textContent = msg || '';
+  el.hidden = !msg;
+}
+
+// --- поиск города (OpenStreetMap Nominatim, без ключей; запрос только по кнопке) ---
+async function searchCity() {
+  const q = $('birth-city').value.trim();
+  const status = $('city-status');
+  const list = $('city-results');
+  list.innerHTML = '';
+  if (q.length < 2) { status.textContent = 'Введи название города.'; return; }
+  status.textContent = 'Ищу…';
+  try {
+    const url = 'https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&limit=8&accept-language=ru&q=' + encodeURIComponent(q);
+    const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+    if (!res.ok) throw new Error('http ' + res.status);
+    const data = (await res.json()).filter(r => ['place', 'boundary'].includes(r.category || r.class));
+    if (!data.length) {
+      status.textContent = 'Ничего не нашла. Попробуй написать иначе или укажи координаты вручную ниже.';
+      return;
+    }
+    status.textContent = data.length > 1 ? 'Выбери свой населённый пункт:' : '';
+    data.forEach(r => {
+      const a = r.address || {};
+      const name = r.name || q;
+      const region = [a.state || a.region || a.county, a.country].filter(Boolean).join(', ');
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.innerHTML = '';
+      btn.append(document.createTextNode(name));
+      const small = document.createElement('small');
+      small.textContent = region;
+      btn.append(small);
+      btn.addEventListener('click', () => {
+        list.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', 'false'));
+        btn.setAttribute('aria-pressed', 'true');
+        selectPlace({ name, region, lat: parseFloat(r.lat), lon: parseFloat(r.lon) });
+      });
+      list.appendChild(btn);
+    });
+    if (data.length === 1) list.querySelector('button').click();
+  } catch (e) {
+    status.textContent = 'Поиск города сейчас недоступен. Укажи координаты вручную ниже.';
+    $('manual-geo').open = true;
+  }
+}
+
+function selectPlace(place) {
+  calc.place = place;
+  $('geo-lat').value = place.lat.toFixed(4);
+  $('geo-lon').value = place.lon.toFixed(4);
+  renderPlaceInfo();
+  sendGoal('city_selected');
+}
+
+function renderPlaceInfo() {
+  const lat = parseFloat($('geo-lat').value), lon = parseFloat($('geo-lon').value);
+  const info = $('place-info');
+  if (!isFinite(lat) || !isFinite(lon)) { info.hidden = true; return; }
+  let zone = '';
+  try { zone = AstroCore.zoneFor(lat, lon); } catch (e) { zone = '—'; }
+  const name = calc.place ? `<strong>${escapeHtml(calc.place.name)}</strong>${calc.place.region ? ', ' + escapeHtml(calc.place.region) : ''}<br>` : '';
+  info.innerHTML = `${name}${AstroCore.formatDMS(lat, 'с. ш.', 'ю. ш.')}, ${AstroCore.formatDMS(lon, 'в. д.', 'з. д.')}<br>Часовой пояс: ${escapeHtml(zone)}`;
+  info.hidden = false;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+function parseOffset(str) {
+  const s = str.trim().replace('−', '-').replace(/^utc/i, '');
+  if (!s) return undefined;
+  const m = s.match(/^([+-]?)(\d{1,2})(?::?(\d{2}))?$/);
+  if (!m) return null;
+  const v = parseInt(m[2], 10) * 60 + (m[3] ? parseInt(m[3], 10) : 0);
+  if (v > 14 * 60) return null;
+  return m[1] === '-' ? -v : v;
+}
+
+// --- расчёт ---
+function runCalc(ev) {
+  if (ev) ev.preventDefault();
+  setBirthError('');
+  $('calc-result').hidden = true;
+  const dateStr = $('birth-date').value;
+  const timeUnknown = $('birth-time-unknown').checked;
+  const timeStr = $('birth-time').value;
+  const lat = parseFloat($('geo-lat').value), lon = parseFloat($('geo-lon').value);
+  const offset = parseOffset($('geo-offset').value);
+
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return setBirthError('Укажи дату рождения.');
+  const [y, m, d] = dateStr.split('-').map(Number);
+  if (y < 1900 || y > new Date().getFullYear()) return setBirthError('Проверь год рождения.');
+  if (!timeUnknown && !/^\d{2}:\d{2}/.test(timeStr)) return setBirthError('Укажи время рождения или отметь «Не знаю время рождения».');
+  if (!isFinite(lat) || !isFinite(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) return setBirthError('Выбери город из списка или укажи координаты вручную.');
+  if (offset === null) return setBirthError('Смещение от UTC укажи в виде +4 или +3:30 — или оставь поле пустым.');
+
+  const [h, min] = timeUnknown ? [12, 0] : timeStr.split(':').map(Number);
+  let r;
+  try {
+    r = AstroCore.compute({ y, m, d, h, min, timeKnown: !timeUnknown, lat, lon, offsetOverrideMin: offset });
+  } catch (e) {
+    if (typeof AstroCore === 'undefined') return setBirthError('Модуль расчёта не загрузился. Обнови страницу или выбери знаки вручную.');
+    return setBirthError('Не получилось рассчитать. Проверь данные или выбери знаки вручную.');
+  }
+  if (r.status === 'nonexistent') {
+    return setBirthError(`В эту ночь часы переводили вперёд, и времени ${timeStr} по местным часам не было. Проверь время рождения по документам.`);
+  }
+  if (r.status === 'error') return setBirthError('Не получилось определить часовой пояс. Укажи смещение от UTC вручную.');
+
+  calc.last = { r, timeUnknown, timeStr, lat, lon, offset };
+  calc.picked = { sun: r.sun.certain ? r.sun.sign : '', moon: r.moon.certain ? r.moon.sign : '', asc: timeUnknown ? 'unknown' : (r.asc.certain ? r.asc.sign : '') };
+  renderCalc();
+  sendGoal(timeUnknown ? 'auto_calc_no_time' : 'auto_calc_done');
+}
+
+function fmtUtc(d) {
+  return d.toISOString().slice(0, 16).replace('T', ' ');
+}
+
+function renderCalc() {
+  const { r, timeUnknown, offset } = calc.last;
+  const box = $('calc-points');
+  box.innerHTML = '';
+  const local = t => AstroCore.formatLocal(t, r.zone, offset);
+
+  const rows = [
+    { key: 'sun', icon: '☉', label: 'Солнце' },
+    { key: 'moon', icon: '☽', label: 'Луна' },
+    { key: 'asc', icon: '↑', label: 'Асцендент' }
+  ];
+
+  rows.forEach(({ key, icon, label }) => {
+    const p = r[key];
+    const div = document.createElement('div');
+    div.className = 'calc-point';
+    const title = document.createElement('div');
+    title.className = 'cp-title';
+    const note = document.createElement('div');
+    note.className = 'cp-note';
+
+    if (key === 'asc' && timeUnknown) {
+      title.textContent = `${icon} ${label} — не определяется`;
+      note.textContent = 'Без точного времени рождения Асцендент не считается. Результат будет по Солнцу и Луне.';
+    } else if (p.certain) {
+      title.textContent = `${icon} ${label} — ${SIGN_RU[p.sign]}`;
+    } else {
+      let options;
+      if (p.segments) {
+        options = p.segments.map(s => s.sign);
+        const parts = p.segments.map((s, i) => {
+          if (i === 0) return `${SIGN_RU[s.sign]} — до ${local(s.to)}`;
+          if (i === p.segments.length - 1) return `${SIGN_RU[s.sign]} — после ${local(s.from)}`;
+          return `${SIGN_RU[s.sign]} — с ${local(s.from)} до ${local(s.to)}`;
+        });
+        title.textContent = `${icon} ${label} — точно определить нельзя`;
+        note.textContent = `В этот день ${label === 'Луна' ? 'Луна' : 'Солнце'} ${label === 'Луна' ? 'сменила' : 'сменило'} знак: ${parts.join('; ')} (по местному времени). Если знаешь, в какой знак попадаешь, выбери сама:`;
+      } else {
+        options = p.options;
+        title.textContent = `${icon} ${label} — точно определить нельзя`;
+        note.textContent = 'В эту ночь часы переводили назад, и указанное время было дважды. Знак зависит от того, какое это было время — выбери, если знаешь:';
+      }
+      const chips = document.createElement('div');
+      chips.className = 'chips';
+      [...new Set(options)].forEach(sign => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.textContent = SIGN_RU[sign];
+        b.setAttribute('aria-pressed', String(calc.picked[key] === sign));
+        b.addEventListener('click', () => {
+          calc.picked[key] = sign;
+          chips.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+          updateCalcButton();
+        });
+        chips.appendChild(b);
+      });
+      note.appendChild(chips);
+    }
+    div.append(title, note);
+    box.appendChild(div);
+  });
+
+  const notes = [];
+  if (r.notes.includes('asc_near_cusp')) notes.push('Асцендент на границе знаков: если время рождения записано неточно, знак может быть соседним.');
+  $('calc-notes').textContent = notes.join(' ');
+
+  renderTech();
+  updateCalcButton();
+  $('calc-result').hidden = false;
+  $('calc-result').scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+}
+
+function renderTech() {
+  const { r, timeUnknown, lat, lon, offset } = calc.last;
+  const dms = v => { const x = ((v % 30) + 30) % 30; const d = Math.floor(x), mm = Math.floor((x - d) * 60); return `${d}°${String(mm).padStart(2, '0')}′ ${SIGN_RU[AstroCore.SIGNS[Math.floor(((v % 360) + 360) % 360 / 30)]]}`; };
+  const rows = [];
+  rows.push(['Координаты', `${AstroCore.formatDMS(lat, 'с. ш.', 'ю. ш.')}, ${AstroCore.formatDMS(lon, 'в. д.', 'з. д.')}`]);
+  rows.push(['Часовой пояс', typeof offset === 'number' ? `задан вручную: ${AstroCore.formatOffset(offset)}` : `${r.zone} (база IANA ${AstroCore.tzdbVersion})`]);
+  if (timeUnknown) {
+    rows.push(['Интервал расчёта', `${fmtUtc(r.interval.from)} — ${fmtUtc(r.interval.to)} UTC`]);
+  } else {
+    r.variants.forEach((v, i) => {
+      const suffix = r.variants.length > 1 ? ` (вариант ${i + 1})` : '';
+      rows.push(['Момент рождения' + suffix, `${fmtUtc(v.utc)} UTC · ${AstroCore.formatOffset(v.offset)}${v.dst === true ? ', летнее время' : ''}`]);
+      rows.push(['Солнце' + suffix, dms(v.sunLon)]);
+      rows.push(['Луна' + suffix, dms(v.moonLon)]);
+      rows.push(['Асцендент' + suffix, dms(v.ascLon)]);
+      if (v.houses.ok) {
+        rows.push(['Система домов', HOUSE_RU[v.houses.system] + (v.houses.system === 'equal_asc' ? ' (широта от 61°45′)' : '')]);
+        rows.push(['Куспиды', v.houses.cusps.map((c, k) => `${k + 1}: ${dms(c)}`).join('; ')]);
+      }
+    });
+  }
+  const t = document.createElement('table');
+  rows.forEach(([a, b]) => {
+    const tr = document.createElement('tr');
+    const td1 = document.createElement('td'); td1.textContent = a;
+    const td2 = document.createElement('td'); td2.textContent = b;
+    tr.append(td1, td2); t.appendChild(tr);
+  });
+  const p = document.createElement('p');
+  p.textContent = 'Тропический зодиак. Для проверки с «Хроносом».';
+  $('calc-tech').innerHTML = '';
+  $('calc-tech').append(t, p);
+}
+
+function updateCalcButton() {
+  const ok = Boolean(calc.picked.sun && calc.picked.moon && calc.picked.asc);
+  $('btn-calc-result').disabled = !ok;
+}
+
+function applyPicked() {
+  ['sun', 'moon', 'asc'].forEach(k => {
+    saveAnswer(k, calc.picked[k] || '');
+    const sel = $(`sel-${k}`);
+    if (sel) {
+      sel.value = calc.picked[k] || '';
+      validateSelect(sel, null, $(`btn-${k}`));
+    }
+  });
+}
+
+function showCalcResult() {
+  if ($('btn-calc-result').disabled) return;
+  applyPicked();
+  showResult();
+}
+
+function goManualFromCalc() {
+  if (calc.last) applyPicked();
+  goTo('sun');
+}
+
+function resetBirthForm() {
+  $('birth-form').reset();
+  $('city-results').innerHTML = '';
+  $('city-status').textContent = '';
+  $('place-info').hidden = true;
+  $('calc-result').hidden = true;
+  $('birth-time').disabled = false;
+  setBirthError('');
+  calc.place = null; calc.last = null; calc.picked = { sun: '', moon: '', asc: '' };
+}
+
+function initBirthForm() {
+  $('birth-date').max = new Date().toISOString().slice(0, 10);
+  $('birth-form').addEventListener('submit', runCalc);
+  $('city-search').addEventListener('click', searchCity);
+  $('birth-city').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); searchCity(); } });
+  $('birth-city').addEventListener('input', () => { calc.place = null; });
+  ['geo-lat', 'geo-lon'].forEach(id => $(id).addEventListener('input', () => { calc.place = null; renderPlaceInfo(); }));
+  $('birth-time-unknown').addEventListener('change', e => {
+    $('birth-time').disabled = e.target.checked;
+    if (e.target.checked) $('birth-time').value = '';
+  });
+  // любые изменения данных — старый результат больше не актуален
+  ['birth-date', 'birth-time', 'birth-time-unknown', 'geo-lat', 'geo-lon', 'geo-offset'].forEach(id =>
+    $(id).addEventListener('change', () => { $('calc-result').hidden = true; }));
+  $('btn-calc-result').addEventListener('click', showCalcResult);
+  $('btn-calc-manual').addEventListener('click', goManualFromCalc);
+  $('btn-skip-calc').addEventListener('click', () => { sendGoal('manual_choice'); goTo('sun'); });
+  $('back-birth').addEventListener('click', () => goTo('intro'));
+  document.querySelectorAll('.go-birth').forEach(a => a.addEventListener('click', e => { e.preventDefault(); goTo('birth'); }));
+}
+
+// ===== BIND =====
+document.addEventListener('DOMContentLoaded', () => {
+  initSelects();
+  initBirthForm();
+
+  document.getElementById('start-button').addEventListener('click', startCalculator);
+  document.getElementById('btn-sun').addEventListener('click', goMoon);
+  document.getElementById('btn-moon').addEventListener('click', goAsc);
+  document.getElementById('btn-asc').addEventListener('click', showResult);
+
+  document.getElementById('back-sun').addEventListener('click', () => goTo('birth'));
+  document.getElementById('back-moon').addEventListener('click', () => goTo('sun'));
+  document.getElementById('back-asc').addEventListener('click', () => goTo('moon'));
+
+  document.getElementById('restart-button').addEventListener('click', restartCalculator);
+
+  const sotisLinks = document.querySelectorAll('a[href*="sotis-online.ru"]');
+  sotisLinks.forEach(link => link.addEventListener('click', () => sendGoal('sotis_click')));
+
+  const ctaVk = document.getElementById('cta-vk');
+  if (ctaVk) ctaVk.addEventListener('click', () => sendGoal('cta_vk_click'));
+
+  const ctaTelegram = document.getElementById('cta-telegram');
+  if (ctaTelegram) ctaTelegram.addEventListener('click', () => sendGoal('cta_telegram_click'));
+
+  const ascSelect = document.getElementById('sel-asc');
+  if (ascSelect) {
+    ascSelect.addEventListener('change', () => {
+      if (ascSelect.value === 'unknown') sendGoal('birth_time_unknown');
+    });
+  }
+
+  // Восстановление прогресса при возврате на сайт (например, после Sotis)
+  if (STEP_ORDER.includes(state.step) && state.step !== 'result') {
+    goTo(state.step);
+  } else {
+    goTo('intro');
+  }
+});
+</script>
+</body>
+</html>

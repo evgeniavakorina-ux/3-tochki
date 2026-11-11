@@ -1,0 +1,12 @@
+{
+  "name": "3-tochki",
+  "private": true,
+  "description": "Интерактив «3 точки»: тесты расчёта. Сайту npm не нужен — все библиотеки лежат в vendor/.",
+  "scripts": { "test": "node tests/run-tests.js" },
+  "devDependencies": {
+    "astronomy-engine": "2.1.19",
+    "moment": "2.31.0",
+    "moment-timezone": "0.6.6",
+    "@photostructure/tz-lookup": "11.8.0"
+  }
+}
